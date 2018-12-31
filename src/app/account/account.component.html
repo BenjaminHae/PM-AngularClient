@@ -1,0 +1,10 @@
+<h3>Details</h3>
+<div *ngIf="account">
+  <span><b>{{account.name}}</b></span>
+  <p *ngFor="let item of fields">
+    <b>{{item.name}}:</b> <span>{{item.value}}</span>
+  </p>
+ <p>
+ <app-password [account]="account"></app-password>
+ </p>
+</div>
