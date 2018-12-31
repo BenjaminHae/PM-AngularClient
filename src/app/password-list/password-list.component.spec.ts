@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PasswordListComponent } from './password-list.component';
+import { BackendService } from '../backend/backend.service';
 
 describe('PasswordListComponent', () => {
   let component: PasswordListComponent;

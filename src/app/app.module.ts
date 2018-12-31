@@ -4,11 +4,17 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PasswordListComponent } from './password-list/password-list.component';
+import { AccountComponent } from './account/account.component';
+import { PasswordComponent } from './password/password.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PasswordListComponent
+    PasswordListComponent,
+    AccountComponent,
+    PasswordComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
