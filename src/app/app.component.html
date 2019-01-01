@@ -5,6 +5,6 @@
   </h1>
 </div>
 <p *ngIf="!touchIdAvailable">Touch Id is not available</p>
-<p *ngIf="touchIdAvailable">Touch Id is available</p>
+<p *ngIf="touchIdAvailable">Touch Id is available: {{message}}</p>
 <app-password-list></app-password-list>
 <router-outlet></router-outlet>

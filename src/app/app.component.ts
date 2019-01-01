@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
       this.touchidService.available()
         .then(() => { 
 		this.touchIdAvailable = true; 
+		this.prepareKeys();
 	})
     }
   }
