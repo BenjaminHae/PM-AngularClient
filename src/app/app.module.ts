@@ -7,6 +7,7 @@ import { PasswordListComponent } from './password-list/password-list.component';
 import { AccountComponent } from './account/account.component';
 import { PasswordComponent } from './password/password.component';
 import { LoginComponent } from './login/login.component';
+import { TouchidService } from './touchid.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { LoginComponent } from './login/login.component';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [TouchidService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
