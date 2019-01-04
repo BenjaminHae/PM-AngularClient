@@ -1,4 +1,6 @@
-<p>
-<input type="text" name="username"/>
-<input type="password" name="password"/>
+<p *ngIf="logonNecessary">
+<input type="text" name="username"/><br/>
+<input type="password" name="password"/><br/>
+<input type="checkbox" [checked]="storeLogin"/> Store credentials?<br/>
+<button (click)="doCredentialLogon">Login</button>
 </p>
