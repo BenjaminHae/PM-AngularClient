@@ -18,31 +18,31 @@ export class TouchidService {
     return false;
   }
 
-  available(): Promise<any> {
+  available(): Promise<string> {
     return new Promise((resolve, reject) => {
       _window().plugins.touchid.isAvailable(resolve, reject);
     });
   }
 
-  hasKey(key: String): Promise<String> {
+  hasKey(key: string): Promise<void> {
     return new Promise((resolve, reject) => {
       _window().plugins.touchid.has(key, resolve, reject);
     });
   }
 
-  saveKey(key: String, value: String): Promise<any> {
+  saveKey(key: string, value: string): Promise<void> {
     return new Promise((resolve, reject) => {
       _window().plugins.touchid.save(key, value, resolve, reject);
     });
   }
 
-  getKey(key: String, message: String): Promise<String> {
+  getKey(key: string, message: string): Promise<string> {
     return new Promise((resolve, reject) => {
       _window().plugins.touchid.verify(key, message, resolve, reject);
     });
   }
 
-  deleteKey(key: String): Promise<any> {
+  deleteKey(key: string): Promise<void> {
     return new Promise((resolve, reject) => {
       _window().plugins.touchid.delete(key, resolve, reject);
     });
