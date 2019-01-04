@@ -13,7 +13,7 @@ export class PasswordComponent implements OnInit {
         this.password = pwd;
       });
   }
-  password: String;
+  password: string;
 
   constructor() { }
 
