@@ -7,20 +7,30 @@ import { Account } from './account.js';
 })
 export class BackendService {
   private backend: AccountBackend = null;
-  private requestGoing: boolean = false;
+  public requestGoing: boolean = false;
   private afterPreparation = [];
   private failedPreparation = [];
 
   constructor() { }
 
-  getDomain(): String {
+  getDomain(): string {
     return "https://www.benjaminh.de/pwtest/";
   }
-  getUser(): String {
+  getUser(): string {
     return "tester";
   }
-  getPassword(): String {
+  getPassword(): string {
     return "testtest2";
+  }
+
+  waitForBackend(): Promise<AccountBackend> {
+    if (this.backend) {
+      return Promise.resolve(this.backend);
+    }
+    return new Promise((resolve, reject) => {
+      this.afterPreparation.push(resolve);
+      this.failedPreparation.push(reject);
+    });
   }
 
   prepareBackend(): Promise<AccountBackend> {
