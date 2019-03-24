@@ -1,9 +1,9 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AccountBackend } from './backend/backend';
 import { TouchidService } from './touchid.service';
 
 function getFromLocalStorage(key: string): string {
-  return "";
+  return sessionStorage.getItem(key);
 }
 
 const keychainKey: string = "passphraseData";
@@ -25,28 +25,66 @@ interface KeyData {
   providedIn: 'root'
 })
 
-export class LogonPersistenceService implements OnInit {
+export class LogonPersistenceService {
 
   private storedAuthentication: StoredData = StoredData.None;
   private storageMethod: StorageMethod = StorageMethod.None;
   storedAccounts: boolean = false;
+  private waitingForKeychain: boolean = false;
+  private waitingForKeychainResponse: Array<any> = [];
+  private keychainLoaded: boolean = false;
 
   constructor(private touchidService: TouchidService) { }
 
   ngOnInit() {
-    this.keychainPresent()
+  }
+
+  waitForKeychain(): Promise<boolean> {
+    console.log('called waitForKeychain');
+    if (this.keychainLoaded) {
+      console.log('resolving');
+      return Promise.resolve(this.authenticationStored());
+    }
+    if (this.waitingForKeychain) {
+      console.log('add to wait chain');
+      return new Promise((resolve, reject) => {
+          this.waitingForKeychainResponse.push(resolve);
+        });
+    }
+    console.log("checking for keychain");
+    return this.keychainPresent()
+      .catch(()=>{
+        throw "keychain";
+      })
       .then(() => {
+          console.log("keychain present");
           this.storageMethod = StorageMethod.Keychain;
-          });
+          return this.touchidService.hasKey(keychainKey);
+        })
+      .catch((e)=>{
+        console.log("error happened in hasKey"+e);
+      })
+      .then(() => {
+        console.log("has key");
+        this.storedAuthentication = StoredData.KeysAndHash;
+      })
+      .then(() => {
+        console.log("result ready");
+        this.waitingForKeychain = false;
+        let result = this.authenticationStored();
+        while (this.waitingForKeychainResponse.length > 0) {
+          console.log("  calling event");
+          this.waitingForKeychainResponse.pop()(result);
+        }
+        return result;
+      });
     //check pin is available
     //todo check whether accounts are stored
   }
 
   private keychainPresent(): Promise<void> {
     return this.touchidService.available()
-      .then(() => {
-          return this.touchidService.hasKey(keychainKey);
-          })
+      .then((info) => {});
   }
 
   private pinPresent(): void {
@@ -56,10 +94,10 @@ export class LogonPersistenceService implements OnInit {
   }
 
   authenticationStored(): boolean {
-    return this.storedAuthentication != StoredData.None;
+      return this.storedAuthentication != StoredData.None;
   }
 
-  logonDone(backend: AccountBackend, password: string): Promise<void> {
+  storeCredentials(backend: AccountBackend, password: string): Promise<void> {
     if (this.storedAuthentication !== StoredData.None && this.storageMethod !== StorageMethod.None) {
       let data: KeyData;
       data.secretkey = getFromLocalStorage("pwdsk");
