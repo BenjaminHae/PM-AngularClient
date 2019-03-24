@@ -5,5 +5,7 @@
   </h1>
 </div>
 <app-password-list *ngIf="backendReady; else waitForLogin"></app-password-list>
-<ng-template #waitForLogin><app-login></app-login></ng-template>
+<app-login></app-login>
+<!-- <ng-template #waitForLogin><app-login></app-login></ng-template>-->
+<ng-template #waitForLogin></ng-template>
 <router-outlet></router-outlet>

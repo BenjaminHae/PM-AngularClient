@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,6 +10,8 @@ import { AccountComponent } from './account/account.component';
 import { PasswordComponent } from './password/password.component';
 import { LoginComponent } from './login/login.component';
 import { TouchidService } from './touchid.service';
+import { ApiModule, BASE_PATH } from '@pm-server/pm-server';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -19,9 +23,13 @@ import { TouchidService } from './touchid.service';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    ApiModule
   ],
-  providers: [TouchidService],
+  providers: [{provide: BASE_PATH, useValue: environment.API_BASE_PATH},
+    TouchidService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
