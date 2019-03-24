@@ -16,12 +16,6 @@ export class BackendService {
   getDomain(): string {
     return "https://www.benjaminh.de/pwtest/";
   }
-  getUser(): string {
-    return "tester";
-  }
-  getPassword(): string {
-    return "testtest2";
-  }
 
   waitForBackend(): Promise<AccountBackend> {
     if (this.backend) {
@@ -33,7 +27,7 @@ export class BackendService {
     });
   }
 
-  prepareBackend(): Promise<AccountBackend> {
+  prepareBackend(user: string, password: string): Promise<AccountBackend> {
     if (this.backend) {
       return Promise.resolve(this.backend);
     }
@@ -48,7 +42,7 @@ export class BackendService {
     loginBackend.domain = this.getDomain();
     return loginBackend.loadInfo()
       .then(() => {
-        return loginBackend.doLogin(this.getUser(), this.getPassword())
+        return loginBackend.doLogin(user, password)
       })
       .then((value) => {
         this.backend = new AccountBackend();
@@ -71,14 +65,7 @@ export class BackendService {
   }
 
   getAccounts(): Promise<Account[]> {
-    var backendReady: Promise<AccountBackend>;
-    if (!this.backend) {
-      backendReady = this.prepareBackend();
-    }
-    else {
-      backendReady = Promise.resolve(this.backend);
-    }
-    return backendReady.then(function(backend: AccountBackend) {
+    return this.waitForBackend().then((backend: AccountBackend) => {
       return backend.accounts;
     });
   }

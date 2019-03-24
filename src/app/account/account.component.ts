@@ -15,7 +15,7 @@ export class AccountComponent implements OnInit {
   constructor(private backendService: BackendService) { }
 
   ngOnInit() {
-    this.backendService.prepareBackend()
+    this.backendService.waitForBackend()
       .then((backend) => {
         this.fields = [];
         if (this.account) {
