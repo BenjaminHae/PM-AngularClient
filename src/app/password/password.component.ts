@@ -8,16 +8,23 @@ import { Account } from '../backend/account';
 })
 export class PasswordComponent implements OnInit {
   @Input() set account(account: Account) {
-    account.getPassword()
-      .then((pwd) => {
-        this.password = pwd;
+    this.transformer.getPassword(account)
+      .then((password) => {
+        this.password = password;
       });
   }
+
+  transformer: AccountTransformerService;
   password: string;
 
-  constructor() { }
+  constructor(transformer AccountTransformerService) {
+    this.transformer = transformer;
+  }
 
   ngOnInit() {
   }
 
+  clearPassword() {
+    this.password = undefined;
+  }
 }
