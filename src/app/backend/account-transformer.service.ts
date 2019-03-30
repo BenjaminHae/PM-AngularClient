@@ -44,4 +44,8 @@ export class AccountTransformerService {
         return account;
       });
   }
+
+  getPassword(account: Account): PromiseLike<string> {
+    return this.crypto.decryptChar(account.enpassword);
+  }
 }
