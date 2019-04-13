@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   password: string = "testtest2";
   message: string = "wait for button click";
 
-  constructor(/*private userApi: UserService*//*private logonPersistence: LogonPersistenceService, private backendService: BackendService*/) {
+  constructor(/*private userApi: UserService*//*private logonPersistence: LogonPersistenceService, */private backendService: BackendService) {
   }
 
   ngOnInit() {
@@ -45,6 +45,7 @@ export class LoginComponent implements OnInit {
 
   doCredentialLogon(): void {
     this.message += "; Logging in";
+    this.backendService.logon(this.username, this.password);
  /*   this.userApi.loginUser({"username":this.username, "password": this.password })
       .subscribe(console.log);*/
     /*
