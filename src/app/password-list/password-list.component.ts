@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../backend/backend.service';
-import { Account } from '../backend/account';
+import { Account } from '../backend/models/account';
 
 @Component({
   selector: 'app-password-list',
@@ -18,10 +18,10 @@ export class PasswordListComponent implements OnInit {
   }
 
   getAccounts(): void {
-    this.backendService.getAccounts()
+    /*this.backendService.getAccounts()
       .then((accounts: Account[]) => {
         this.accounts = accounts;
-      });
+      });*/
   }
 
   selectedAccount: Account;

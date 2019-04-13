@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Account } from '../backend/account';
+import { Account } from '../backend/models/account';
+import { AccountTransformerService } from '../backend/controller/account-transformer.service';
 
 @Component({
   selector: 'app-password',
@@ -17,7 +18,7 @@ export class PasswordComponent implements OnInit {
   transformer: AccountTransformerService;
   password: string;
 
-  constructor(transformer AccountTransformerService) {
+  constructor(transformer: AccountTransformerService) {
     this.transformer = transformer;
   }
 

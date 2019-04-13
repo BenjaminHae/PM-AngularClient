@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  API_BASE_PATH: 'http://debian-vms-hp.lab:8080/'
+  API_BASE_PATH: 'http://debian-vms-hp.lab:8000/'
 };
 
 /*
