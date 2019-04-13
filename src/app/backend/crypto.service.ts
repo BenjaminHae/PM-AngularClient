@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CredentialService } from './credential.service';
-import { CryptedObject } from './cryptedObject';
+import { CryptedObject } from './models/cryptedObject';
 
 @Injectable({
   providedIn: 'root'

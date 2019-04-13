@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { CryptoService } from './crypto.service';
-import { CryptedObject } from './cryptedObject';
-import { Account } from './account';
-import { encryptedAccount } from './encryptedAccount';
+import { CryptoService } from '../crypto.service';
+import { CryptedObject } from '../models/cryptedObject';
+import { Account } from '../models/account';
+import { encryptedAccount } from '../models/encryptedAccount';
 
 @Injectable({
   providedIn: 'root'
