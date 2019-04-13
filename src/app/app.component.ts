@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   constructor(private backendService: BackendService) { }
 
   ngOnInit() {
+    console.log("oninit");
     this.backendService.waitForBackend()
       .then(() => { this.backendReady = true; });
   }

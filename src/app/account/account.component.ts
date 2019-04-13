@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Account } from '../backend/account';
+import { Account } from '../backend/models/account';
 import { BackendService } from '../backend/backend.service';
-import { AccountBackend } from '../backend/backend';
+//import { AccountBackend } from '../backend/backend';
 
 @Component({
   selector: 'app-account',
@@ -15,6 +15,7 @@ export class AccountComponent implements OnInit {
   constructor(private backendService: BackendService) { }
 
   ngOnInit() {
+    /*
     this.backendService.waitForBackend()
       .then((backend) => {
         this.fields = [];
@@ -26,6 +27,7 @@ export class AccountComponent implements OnInit {
         else
           console.log("no account");
       });
+    */
   }
 
 }
