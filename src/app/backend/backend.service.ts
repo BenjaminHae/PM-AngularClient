@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { Account } from './models/account';
 import { MaintenanceService } from './api/maintenance.service';
 import { UserService } from './api/user.service';
+import { AccountsService } from './api/accounts.service';
 import { Observable } from 'rxjs';
+import { AccountId } from '@pm-server/pm-server';
 
 function subscriptionCreator(list): any {
     return (observer) => {
@@ -21,7 +23,7 @@ function subscriptionExecutor(list, params) {
   providedIn: 'root'
 })
 export class BackendService {
-  constructor(private maintenanceService: MaintenanceService, private userService: UserService ) { }
+  constructor(private maintenanceService: MaintenanceService, private userService: UserService, private accountsService: AccountsService ) { }
   private accountsObservers = [];
   private loginObservers = [];
 
@@ -39,8 +41,8 @@ export class BackendService {
   }
 
   afterLogin(): void {
-    this.accountService.getAccounts()
-        .subscribe((accounts: Array<Account>) => {
+    this.accountsService.getAccounts()
+        .subscribe((accounts: Array<AccountId>) => {
             subscriptionExecutor(this.accountsObservers, accounts);
           });
   }
