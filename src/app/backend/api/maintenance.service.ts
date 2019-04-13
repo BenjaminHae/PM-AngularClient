@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserService, MaintenanceService as OpenAPIMaintenanceService, ServerInformation } from '@pm-server/pm-server';
+import { MaintenanceService as OpenAPIMaintenanceService, UserService, ServerInformation } from '@pm-server/pm-server';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +12,9 @@ export class MaintenanceService {
     this.maintenanceService
       .serverInformation()
       .subscribe((serverInformation: ServerInformation) => {
-        console.log(serverInformation);
+        if (!this.maintenanceService.configuration.apiKeys)
+          this.maintenanceService.configuration.apiKeys = {};
         this.maintenanceService.configuration.apiKeys["X-CSRF-TOKEN"] = serverInformation.csrfToken;
-        this.userService.configuration.apiKeys["X-CSRF-TOKEN"] = serverInformation.csrfToken;
       });
   }
 }

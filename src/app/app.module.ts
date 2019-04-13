@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { ApiModule, BASE_PATH } from '@pm-server/pm-server';
+import { ApiModule, BASE_PATH, Configuration, ConfigurationParameters } from '@pm-server/pm-server';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +14,14 @@ import { LoginComponent } from './login/login.component';
 //import { TouchidService } from './touchid.service';
 import { environment } from '../environments/environment';
 
+export function apiConfigFactory(): Configuration{
+  const params: ConfigurationParameters = {
+    apiKeys: {},
+    basePath: environment.API_BASE_PATH
+    // set configuration parameters here.
+  }
+  return new Configuration(params);
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,10 +34,10 @@ import { environment } from '../environments/environment';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ApiModule,
+    ApiModule.forRoot(apiConfigFactory),
     HttpClientModule
   ],
-  providers: [{provide: BASE_PATH, useValue: environment.API_BASE_PATH}/*, TouchidService*/],
+  providers: [/*TouchidService*/],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
