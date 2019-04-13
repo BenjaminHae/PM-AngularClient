@@ -8,10 +8,8 @@ import { encryptedAccount } from './encryptedAccount';
   providedIn: 'root'
 })
 export class AccountTransformerService {
-  crypto: CryptoService;
 
-  constructor(crypto: CryptoService) {
-    this.crypto = crypto;
+  constructor(private crypto: CryptoService) {
   }
 
   encryptAccount(account: Account): PromiseLike<encryptedAccount> {

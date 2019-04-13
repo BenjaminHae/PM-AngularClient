@@ -7,10 +7,7 @@ import { CryptedObject } from './cryptedObject';
 })
 export class CryptoService {
 
-  credentials: CredentialService;
-
-  constructor(credentials: CredentialService) {
-    this.credentials = credentials;
+  constructor(private credentials: CredentialService) {
   }
 
   decryptChar(crypt: CryptedObject): PromiseLike<string> {
