@@ -1,15 +1,35 @@
 import { Injectable } from '@angular/core';
-import { AccountBackend,LogonBackend  } from './backend.js';
-import { Account } from './account.js';
+//import { HttpClient } from '@angular/common/http';
+//import { AccountBackend,LogonBackend  } from './backend.js';
+import { Account } from './models/account';
+import { MaintenanceService } from './api/maintenance.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BackendService {
-  private backend: AccountBackend = null;
-  public requestGoing: boolean = false;
+  constructor(private maintenanceService: MaintenanceService) { }
   private afterPreparation = [];
   private failedPreparation = [];
+
+  waitForBackend(): Promise<void> {
+    console.log("waiting for maintenanceService");
+    this.maintenanceService.retrieveInfo();
+    return Promise.resolve();
+    /*
+    if (this.backend) {
+      return Promise.resolve();
+    }
+
+    return new Promise((resolve, reject) => {
+      this.afterPreparation.push(resolve);
+      this.failedPreparation.push(reject);
+    });
+  */
+  }
+/*
+  private backend: AccountBackend = null;
+  public requestGoing: boolean = false;
 
   constructor() { }
 
@@ -69,4 +89,5 @@ export class BackendService {
       return backend.accounts;
     });
   }
+*/
 }

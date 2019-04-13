@@ -12,6 +12,7 @@ export class MaintenanceService {
     this.maintenanceService
       .serverInformation()
       .subscribe((serverInformation: ServerInformation) => {
+        console.log(serverInformation);
         this.maintenanceService.configuration.apiKeys["X-CSRF-TOKEN"] = serverInformation.csrfToken;
         this.userService.configuration.apiKeys["X-CSRF-TOKEN"] = serverInformation.csrfToken;
       });
