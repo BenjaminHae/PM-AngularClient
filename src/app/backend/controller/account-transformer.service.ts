@@ -3,6 +3,7 @@ import { CryptoService } from '../crypto.service';
 import { CryptedObject } from '../models/cryptedObject';
 import { Account } from '../models/account';
 import { encryptedAccount } from '../models/encryptedAccount';
+import { AccountId as OpenAPIAccountId } from '@pm-server/pm-server';
 
 @Injectable({
   providedIn: 'root'
@@ -45,5 +46,23 @@ export class AccountTransformerService {
 
   getPassword(account: Account): PromiseLike<string> {
     return this.crypto.decryptChar(account.enpassword);
+  }
+
+  encryptedAccountFromOpenAPI(apiAccount: OpenAPIAccountId): encryptedAccount {
+    return new encryptedAccount(
+        apiAccount.index,
+        CryptedObject.fromBase64JSON(apiAccount.name),
+        CryptedObject.fromBase64JSON(apiAccount.password),
+        CryptedObject.fromBase64JSON(apiAccount.additional)
+        );
+  }
+
+  encryptedAccountToOpenAPI(account: encryptedAccount): OpenAPIAccountId {
+    return {
+      index: account.index,
+      name: account.name.toBase64JSON(),
+      additional: account.other.toBase64JSON(),
+      password: account.password.toBase64JSON()
+    };
   }
 }
