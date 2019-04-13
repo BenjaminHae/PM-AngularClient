@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AccountBackend } from './backend/backend';
+//import { AccountBackend } from './backend/backend';
 import { TouchidService } from './touchid.service';
 
 function getFromLocalStorage(key: string): string {
@@ -97,7 +97,7 @@ export class LogonPersistenceService {
       return this.storedAuthentication != StoredData.None;
   }
 
-  storeCredentials(backend: AccountBackend, password: string): Promise<void> {
+  /*storeCredentials(backend: AccountBackend, password: string): Promise<void> {
     if (this.storedAuthentication !== StoredData.None && this.storageMethod !== StorageMethod.None) {
       let data: KeyData;
       data.secretkey = getFromLocalStorage("pwdsk");
@@ -113,7 +113,7 @@ export class LogonPersistenceService {
       }
     }
     return Promise.resolve();
-  }
+  }*/
 
   retrieveCredentials(): KeyData {
     if (this.storedAccounts) {
