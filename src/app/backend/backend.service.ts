@@ -1,32 +1,58 @@
 import { Injectable } from '@angular/core';
-//import { HttpClient } from '@angular/common/http';
-//import { AccountBackend,LogonBackend  } from './backend.js';
 import { Account } from './models/account';
 import { MaintenanceService } from './api/maintenance.service';
+import { UserService } from './api/user.service';
+import { Observable } from 'rxjs';
 
+function subscriptionCreator(list): any {
+    return (observer) => {
+      list.push(observer);
+      return {
+        unsubscribe() {
+          list.splice(list.indexOf(observer), 1);
+        }
+      }
+    };
+}
+function subscriptionExecutor(list, params) {
+  this.accountsSubscribers.forEach(obs => obs.next(params));
+}
 @Injectable({
   providedIn: 'root'
 })
 export class BackendService {
-  constructor(private maintenanceService: MaintenanceService) { }
-  private afterPreparation = [];
-  private failedPreparation = [];
+  constructor(private maintenanceService: MaintenanceService, private userService: UserService ) { }
+  private accountsObservers = [];
+  private loginObservers = [];
 
   waitForBackend(): Promise<void> {
     console.log("waiting for maintenanceService");
     this.maintenanceService.retrieveInfo();
     return Promise.resolve();
-    /*
-    if (this.backend) {
-      return Promise.resolve();
-    }
-
-    return new Promise((resolve, reject) => {
-      this.afterPreparation.push(resolve);
-      this.failedPreparation.push(reject);
-    });
-  */
   }
+
+  logon(username: string, password: string): void {
+    this.userService.logon(username, password)
+      .subscribe(() => {
+            this.afterLogin();
+          });
+  }
+
+  afterLogin(): void {
+    this.accountService.getAccounts()
+        .subscribe((accounts: Array<Account>) => {
+            subscriptionExecutor(this.accountsObservers, accounts);
+          });
+  }
+
+  subscribeToAccounts(): void {
+    return subscriptionCreator(this.accountsObservers);
+  }
+
+  subscribeToLogin(): void {
+    return subscriptionCreator(this.loginObservers);
+  }
+
 /*
   private backend: AccountBackend = null;
   public requestGoing: boolean = false;
