@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { MaintenanceService as OpenAPIMaintenanceService, UserService, ServerInformation } from '@pm-server/pm-server';
+import { MaintenanceService as OpenAPIMaintenanceService, ServerInformation } from '@pm-server/pm-server';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MaintenanceService {
 
-  constructor(private maintenanceService: OpenAPIMaintenanceService, private userService: UserService) { }
+  constructor(private maintenanceService: OpenAPIMaintenanceService) { }
 
   retrieveInfo(): void {
     this.maintenanceService
