@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserService as OpenAPIUserService } from '@pm-server/pm-server';
+import { UserService as OpenAPIUserService, RegistrationInformation } from '@pm-server/pm-server';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -15,5 +15,9 @@ export class UserService {
 
   logout(): Observable<any> {
      return this.userService.logoutUser();
+  }
+
+  register(username: string, password: string, email: string): Observable<any> {
+    return this.userService.registerUser({"username": username, "password": password, "email": email});
   }
 }

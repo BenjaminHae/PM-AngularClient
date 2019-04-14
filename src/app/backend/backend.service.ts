@@ -5,6 +5,7 @@ import { UserService } from './api/user.service';
 import { AccountsService } from './api/accounts.service';
 import { Observable } from 'rxjs';
 import { AccountId } from '@pm-server/pm-server';
+import { ServerSettings } from './models/serverSettings';
 
 function subscriptionCreator(list): any {
     return (observer) => {
@@ -23,9 +24,11 @@ function subscriptionExecutor(list, params) {
   providedIn: 'root'
 })
 export class BackendService {
-  constructor(private maintenanceService: MaintenanceService, private userService: UserService, private accountsService: AccountsService ) { }
   private accountsObservers = [];
   private loginObservers = [];
+  public serverSettings: ServerSettings = {true};
+
+  constructor(private maintenanceService: MaintenanceService, private userService: UserService, private accountsService: AccountsService ) {}
 
   waitForBackend(): Promise<void> {
     console.log("waiting for maintenanceService");
@@ -45,6 +48,10 @@ export class BackendService {
         .subscribe((accounts: Array<AccountId>) => {
             subscriptionExecutor(this.accountsObservers, accounts);
           });
+  }
+
+  register(username: string, password: string, email: string): Observable<any> {
+    return this.userService.register(username, password, email);
   }
 
   subscribeToAccounts(): void {
