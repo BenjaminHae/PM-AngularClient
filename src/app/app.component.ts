@@ -18,7 +18,7 @@ constructor(private backendService: BackendService) { }
     console.log("oninit");
     this.backendService.waitForBackend()
       .then(() => { this.backendReady = true; });
-    this.backendService.subscribeToLogin()
+    this.backendService.loginObservable
       .subscribe(()=>{
             this.authenticated = true;
           });

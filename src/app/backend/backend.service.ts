@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Account } from './models/account';
+import { encryptedAccount } from './models/encryptedAccount';
 import { MaintenanceService } from './api/maintenance.service';
 import { UserService } from './api/user.service';
 import { AccountsService } from './api/accounts.service';
 import { Observable } from 'rxjs';
-import { AccountId } from '@pm-server/pm-server';
 import { ServerSettings } from './models/serverSettings';
+import { CredentialService } from './credential.service';
 
 function subscriptionCreator(list): any {
     return (observer) => {
@@ -18,7 +19,7 @@ function subscriptionCreator(list): any {
     };
 }
 function subscriptionExecutor(list, params) {
-  this.accountsSubscribers.forEach(obs => obs.next(params));
+  list.forEach(obs => obs.next(params));
 }
 @Injectable({
   providedIn: 'root'
@@ -27,8 +28,11 @@ export class BackendService {
   private accountsObservers = [];
   private loginObservers = [];
   public serverSettings: ServerSettings = {allowRegistration: true};
+  public accounts: Array<Account>;
+  accountsObservable = new Observable(subscriptionCreator(this.accountsObservers));
+  loginObservable = new Observable(subscriptionCreator(this.loginObservers));
 
-  constructor(private maintenanceService: MaintenanceService, private userService: UserService, private accountsService: AccountsService ) {}
+  constructor(private maintenanceService: MaintenanceService, private userService: UserService, private accountsService: AccountsService, private credentials: CredentialService ) {}
 
   waitForBackend(): Promise<void> {
     console.log("waiting for maintenanceService");
@@ -44,22 +48,16 @@ export class BackendService {
   }
 
   afterLogin(): void {
+    subscriptionExecutor(this.loginObservers, null);
     this.accountsService.getAccounts()
-        .subscribe((accounts: Array<AccountId>) => {
+        .subscribe((accounts: Array<encryptedAccount>) => {
+            console.log('received accounts');
             subscriptionExecutor(this.accountsObservers, accounts);
           });
   }
 
   register(username: string, password: string, email: string): Observable<any> {
     return this.userService.register(username, password, email);
-  }
-
-  subscribeToAccounts(): void {
-    return subscriptionCreator(this.accountsObservers);
-  }
-
-  subscribeToLogin(): void {
-    return subscriptionCreator(this.loginObservers);
   }
 
 /*
