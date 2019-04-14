@@ -26,7 +26,7 @@ function subscriptionExecutor(list, params) {
 export class BackendService {
   private accountsObservers = [];
   private loginObservers = [];
-  public serverSettings: ServerSettings = {true};
+  public serverSettings: ServerSettings = {allowRegistration: true};
 
   constructor(private maintenanceService: MaintenanceService, private userService: UserService, private accountsService: AccountsService ) {}
 
