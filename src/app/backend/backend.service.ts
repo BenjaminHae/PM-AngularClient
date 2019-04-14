@@ -4,8 +4,10 @@ import { encryptedAccount } from './models/encryptedAccount';
 import { MaintenanceService } from './api/maintenance.service';
 import { UserService } from './api/user.service';
 import { AccountsService } from './api/accounts.service';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ServerSettings } from './models/serverSettings';
+import { AccountTransformerService } from './controller/account-transformer.service';
 import { CredentialService } from './credential.service';
 
 function subscriptionCreator(list): any {
@@ -32,7 +34,7 @@ export class BackendService {
   accountsObservable = new Observable(subscriptionCreator(this.accountsObservers));
   loginObservable = new Observable(subscriptionCreator(this.loginObservers));
 
-  constructor(private maintenanceService: MaintenanceService, private userService: UserService, private accountsService: AccountsService, private credentials: CredentialService ) {}
+  constructor(private maintenanceService: MaintenanceService, private userService: UserService, private accountsService: AccountsService, private credentials: CredentialService, private accountTransformer: AccountTransformerService ) {}
 
   waitForBackend(): Promise<void> {
     console.log("waiting for maintenanceService");
@@ -58,6 +60,14 @@ export class BackendService {
 
   register(username: string, password: string, email: string): Observable<any> {
     return this.userService.register(username, password, email);
+  }
+
+  addAccount(account: Account): Observable<any> {
+    return from(this.accountTransformer.encryptAccount(account))
+      .pipe(map((encAccount: encryptedAccount) => {
+              return this.accountsService.addAccount(encAccount);
+            })
+          );
   }
 
 /*
