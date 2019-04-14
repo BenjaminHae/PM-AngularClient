@@ -11,7 +11,7 @@ export class PasswordListComponent implements OnInit {
 
   accounts: Account[];
 
-  constructor(private backendService: BackendService) { }
+  constructor(private backend: BackendService) { }
 
   ngOnInit() {
   	this.getAccounts();
