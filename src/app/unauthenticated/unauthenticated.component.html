@@ -1,0 +1,5 @@
+<div>
+  <app-login *ngIf="!showRegistration"></app-login>
+  <app-registration *ngIf="showRegistration"></app-registration>
+  <button *ngIf="backend.serverSettings.allowRegistration" type="button" label="Login" (click)="toggleRegistrationLogin()">{{showRegistration ? "Login" : "Registration" }}</button>
+</div>

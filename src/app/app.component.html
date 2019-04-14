@@ -1,11 +1,11 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
   <h1>
-    Welcome to {{ title }}!
+    {{ title }}!
   </h1>
 </div>
+<app-unauthenticated></app-unauthenticated>
 <app-password-list *ngIf="backendReady; else waitForLogin"></app-password-list>
-<app-login></app-login>
 <!-- <ng-template #waitForLogin><app-login></app-login></ng-template>-->
 <ng-template #waitForLogin></ng-template>
 <router-outlet></router-outlet>

@@ -13,6 +13,8 @@ import { PasswordComponent } from './password/password.component';
 import { LoginComponent } from './login/login.component';
 //import { TouchidService } from './touchid.service';
 import { environment } from '../environments/environment';
+import { RegistrationComponent } from './registration/registration.component';
+import { UnauthenticatedComponent } from './unauthenticated/unauthenticated.component';
 
 export function apiConfigFactory(): Configuration{
   const params: ConfigurationParameters = {
@@ -28,7 +30,9 @@ export function apiConfigFactory(): Configuration{
     PasswordListComponent,
     AccountComponent,
     PasswordComponent,
-    LoginComponent
+    LoginComponent,
+    RegistrationComponent,
+    UnauthenticatedComponent
   ],
   imports: [
     BrowserModule,
