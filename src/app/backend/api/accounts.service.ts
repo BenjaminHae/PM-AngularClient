@@ -22,4 +22,8 @@ export class AccountsService {
             })
           );
   }
+
+  addAccount(account: encryptedAccount): Observable<any> {
+    return this.accountsService.addAccount(this.accountTransformer.encryptedAccountToOpenAPI(account));
+  }
 }
