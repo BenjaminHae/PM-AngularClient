@@ -15,6 +15,7 @@ import { LoginComponent } from './login/login.component';
 import { environment } from '../environments/environment';
 import { RegistrationComponent } from './registration/registration.component';
 import { UnauthenticatedComponent } from './unauthenticated/unauthenticated.component';
+import { AuthenticatedComponent } from './authenticated/authenticated.component';
 
 export function apiConfigFactory(): Configuration{
   const params: ConfigurationParameters = {
@@ -32,7 +33,8 @@ export function apiConfigFactory(): Configuration{
     PasswordComponent,
     LoginComponent,
     RegistrationComponent,
-    UnauthenticatedComponent
+    UnauthenticatedComponent,
+    AuthenticatedComponent
   ],
   imports: [
     BrowserModule,

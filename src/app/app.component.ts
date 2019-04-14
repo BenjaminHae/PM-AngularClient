@@ -11,12 +11,16 @@ export class AppComponent implements OnInit {
   touchIdAvailable: boolean = false;
   message: string = "";
   backendReady: boolean = false;
+  authenticated: boolean = false;
 
-  constructor(private backendService: BackendService) { }
-
+constructor(private backendService: BackendService) { }
   ngOnInit() {
     console.log("oninit");
     this.backendService.waitForBackend()
       .then(() => { this.backendReady = true; });
+    this.backendService.subscribeToLogin()
+      .subscribe(()=>{
+            this.authenticated = true;
+          });
   }
 }
