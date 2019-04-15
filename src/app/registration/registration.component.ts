@@ -13,6 +13,7 @@ export class RegistrationComponent implements OnInit {
   private passwordRepeat: string = "";
   private email: string = "";
   private username: string = "";
+  private message: string = "";
 
   constructor(private backend:BackendService) {
   }
@@ -22,9 +23,15 @@ export class RegistrationComponent implements OnInit {
 
   register() {
     if (this.passwordRepeat !== this.password) {
+      this.message = "password mismatch";
       return;
     }
-    this.backend.register(this.username, this.password, this.email);
+    this.backend.register(this.username, this.password, this.email)
+      .then((observable) => {
+          observable.subscribe(()=> {
+              this.message = "registrating successful";
+              });
+          });
   }
 
 }
