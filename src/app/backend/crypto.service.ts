@@ -24,8 +24,7 @@ export class CryptoService {
     });
   }
 
-  encryptChar(plaintext: string): PromiseLike<CryptedObject> {
-    let iv = window.crypto.getRandomValues(new Uint8Array(12));
+  encryptChar(plaintext: string, iv = window.crypto.getRandomValues(new Uint8Array(12))): PromiseLike<CryptedObject> {
     return window.crypto.subtle.encrypt(
       {
         name: "AES-GCM",
