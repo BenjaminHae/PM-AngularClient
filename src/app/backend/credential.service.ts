@@ -16,7 +16,7 @@ export class CredentialService {
         enc.encode(password),
         {
           "name": "PBKDF2",
-        //the next lines are a trick to get the typescript compiler to accept the type :/
+          //the next lines are a trick to get the typescript compiler to accept the type :/
           "generator": new Uint8Array(12),
           "prime": new Uint8Array(12),
         },
@@ -24,7 +24,6 @@ export class CredentialService {
         ["deriveBits", "deriveKey"]
         )
       .then((keyMaterial) => {
-//Todo: create salt
           return window.crypto.subtle.deriveKey(
               {"name": "PBKDF2", salt:new ArrayBuffer(0), "iterations": 100000, "hash": "SHA-256" },
               keyMaterial,
@@ -37,7 +36,6 @@ export class CredentialService {
         this.key = key;
         return key;
         });
-    //ToDo return result as observable
   }
 
   getKey(): CryptoKey {
