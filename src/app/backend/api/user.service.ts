@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UserService as OpenAPIUserService, RegistrationInformation } from '@pm-server/pm-server';
 import { Observable } from 'rxjs';
+import { CryptedObject } from '../models/cryptedObject';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class UserService {
      return this.userService.logoutUser();
   }
 
-  register(username: string, password: string, email: string): Observable<any> {
-    return this.userService.registerUser({"username": username, "password": password, "email": email});
+  register(username: string, password: CryptedObject, email: string): Observable<any> {
+    return this.userService.registerUser({"username": username, "password": password.toBase64JSON(), "email": email});
   }
 }
