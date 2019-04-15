@@ -1,3 +1,4 @@
 export interface ServerSettings {
-  allowRegistration: boolean;
+  allowRegistration: boolean,
+  passwordGenerator: string
 }
