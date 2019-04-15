@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Account } from './models/account';
+import { CryptedObject } from './models/cryptedObject';
 import { encryptedAccount } from './models/encryptedAccount';
 import { MaintenanceService } from './api/maintenance.service';
 import { UserService } from './api/user.service';
@@ -9,6 +10,7 @@ import { map } from 'rxjs/operators';
 import { ServerSettings } from './models/serverSettings';
 import { AccountTransformerService } from './controller/account-transformer.service';
 import { CredentialService } from './credential.service';
+import { CryptoService } from './crypto.service';
 
 function subscriptionCreator(list): any {
     return (observer) => {
@@ -29,12 +31,12 @@ function subscriptionExecutor(list, params) {
 export class BackendService {
   private accountsObservers = [];
   private loginObservers = [];
-  public serverSettings: ServerSettings = {allowRegistration: true};
+  public serverSettings: ServerSettings = {allowRegistration: true, passwordGenerator: "aaaaab"};
   public accounts: Array<Account>;
   accountsObservable = new Observable(subscriptionCreator(this.accountsObservers));
   loginObservable = new Observable(subscriptionCreator(this.loginObservers));
 
-  constructor(private maintenanceService: MaintenanceService, private userService: UserService, private accountsService: AccountsService, private credentials: CredentialService, private accountTransformer: AccountTransformerService ) {}
+  constructor(private maintenanceService: MaintenanceService, private userService: UserService, private accountsService: AccountsService, private credentials: CredentialService, private accountTransformer: AccountTransformerService, private crypto: CryptoService ) {}
 
   waitForBackend(): Promise<void> {
     console.log("waiting for maintenanceService");
@@ -43,23 +45,35 @@ export class BackendService {
   }
 
   logon(username: string, password: string): void {
-    this.userService.logon(username, password)
-      .subscribe(() => {
+    this.credentials.generateFromPassword(password)
+      .then((key) => {
+          return this.crypto.encryptChar(this.serverSettings.passwordGenerator, new Uint8Array(12))
+          })
+    .then((ciphertext: CryptedObject) => {
+        return this.userService.logon(username, ciphertext.toBase64JSON())
+        .subscribe(() => {
             this.afterLogin();
-          });
+            });
+        });
   }
 
   afterLogin(): void {
     subscriptionExecutor(this.loginObservers, null);
     this.accountsService.getAccounts()
-        .subscribe((accounts: Array<encryptedAccount>) => {
-            console.log('received accounts');
-            subscriptionExecutor(this.accountsObservers, accounts);
+      .subscribe((accounts: Array<encryptedAccount>) => {
+          console.log('received accounts');
+          subscriptionExecutor(this.accountsObservers, accounts);
           });
   }
 
-  register(username: string, password: string, email: string): Observable<any> {
-    return this.userService.register(username, password, email);
+  register(username: string, password: string, email: string): PromiseLike<Observable<any>> {
+    return this.credentials.generateFromPassword(password)
+      .then((key) => {
+          return this.crypto.encryptChar(this.serverSettings.passwordGenerator, new Uint8Array(12))
+          })
+    .then((ciphertext: CryptedObject) => {
+        return this.userService.register(username, ciphertext, email)
+        });
   }
 
   addAccount(account: Account): Observable<any> {
