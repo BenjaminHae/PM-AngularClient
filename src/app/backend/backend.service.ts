@@ -94,11 +94,10 @@ export class BackendService {
     return this.accountTransformer.encryptAccount(account)
       .then((encAccount: encryptedAccount) => {
           console.log(encAccount);
-          let observable = this.accountsService.addAccount(encAccount);
-          observable.subscribe((accounts: Array<encryptedAccount>) => {
-              this.parseAccounts(accounts);
-              });
-          return observable;
+          return this.accountsService.addAccount(encAccount)
+          .pipe(map((accounts: Array<encryptedAccount>) => {
+                this.parseAccounts(accounts);
+                }));
           });
   }
 
