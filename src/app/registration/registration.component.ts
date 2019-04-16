@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../backend/backend.service';
-import { RegistrationInformation } from '@pm-server/pm-server';
 
 @Component({
   selector: 'app-registration',
