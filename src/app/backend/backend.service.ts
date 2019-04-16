@@ -5,7 +5,7 @@ import { encryptedAccount } from './models/encryptedAccount';
 import { MaintenanceService } from './api/maintenance.service';
 import { UserService } from './api/user.service';
 import { AccountsService } from './api/accounts.service';
-import { Observable, from } from 'rxjs';
+import { Observable, from, OperatorFunction } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ServerSettings } from './models/serverSettings';
 import { AccountTransformerService } from './controller/account-transformer.service';
@@ -60,23 +60,23 @@ export class BackendService {
   afterLogin(): void {
     subscriptionExecutor(this.loginObservers, null);
     this.accountsService.getAccounts()
-      .subscribe((accounts: Array<encryptedAccount>) => {
-          this.parseAccounts(accounts);
-          });
+      .pipe(this.parseAccounts())
+      .subscribe();
   }
 
-  private parseAccounts(accounts: Array<encryptedAccount>): void {
-    console.log('received accounts');
-    let promises: Array<PromiseLike<Account>> = [];
-    accounts.forEach((encaccount: encryptedAccount) => {
-        let promise = this.accountTransformer.decryptAccount(encaccount);
-        promises.push(promise);
-        });
-    Promise.all(promises).then((accounts: Array<Account>) => {
-        console.log('decrypted accounts');
-        console.log(accounts);
-        this.accounts = accounts;
-        subscriptionExecutor(this.accountsObservers, accounts);
+  private parseAccounts(): OperatorFunction<Array<encryptedAccount>, void> {
+    return map((accounts: Array<encryptedAccount>): void => {
+        console.log("received accounts");
+        let promises: Array<PromiseLike<Account>> = [];
+        accounts.forEach((encaccount: encryptedAccount) => {
+            let promise = this.accountTransformer.decryptAccount(encaccount);
+            promises.push(promise);
+            });
+        Promise.all(promises).then((accounts: Array<Account>) => {
+            this.accounts = accounts;
+            subscriptionExecutor(this.accountsObservers, accounts);
+            });
+        return ;
         });
   }
 
@@ -93,11 +93,8 @@ export class BackendService {
   addAccount(account: Account): PromiseLike<Observable<any>> {
     return this.accountTransformer.encryptAccount(account)
       .then((encAccount: encryptedAccount) => {
-          console.log(encAccount);
           return this.accountsService.addAccount(encAccount)
-          .pipe(map((accounts: Array<encryptedAccount>) => {
-                this.parseAccounts(accounts);
-                }));
+          .pipe(this.parseAccounts());
           });
   }
 
