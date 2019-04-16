@@ -24,6 +24,13 @@ export class AccountsService {
   }
 
   addAccount(account: encryptedAccount): Observable<any> {
-    return this.accountsService.addAccount(this.accountTransformer.encryptedAccountToOpenAPI(account));
+    return this.accountsService.addAccount(this.accountTransformer.encryptedAccountToOpenAPI(account))
+      .pipe(
+          map((accounts: Array<AccountId>): Array<encryptedAccount> => {
+            return accounts.map((account: AccountId) => {
+                return this.accountTransformer.encryptedAccountFromOpenAPI(account);
+                });
+            })
+          );
   }
 }
