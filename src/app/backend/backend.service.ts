@@ -62,7 +62,17 @@ export class BackendService {
     this.accountsService.getAccounts()
       .subscribe((accounts: Array<encryptedAccount>) => {
           console.log('received accounts');
-          subscriptionExecutor(this.accountsObservers, accounts);
+          let promises: Array<PromiseLike<Account>> = [];
+          accounts.forEach((encaccount: encryptedAccount) => {
+              let promise = this.accountTransformer.decryptAccount(encaccount);
+              promises.push(promise);
+              });
+          Promise.all(promises).then((accounts: Array<Account>) => {
+              console.log('decrypted accounts');
+              console.log(accounts);
+              this.accounts = accounts;
+              subscriptionExecutor(this.accountsObservers, accounts);
+              });
           });
   }
 
@@ -76,12 +86,12 @@ export class BackendService {
         });
   }
 
-  addAccount(account: Account): Observable<any> {
-    return from(this.accountTransformer.encryptAccount(account))
-      .pipe(map((encAccount: encryptedAccount) => {
-              return this.accountsService.addAccount(encAccount);
-            })
-          );
+  addAccount(account: Account): PromiseLike<Observable<any>> {
+    return this.accountTransformer.encryptAccount(account)
+      .then((encAccount: encryptedAccount) => {
+          console.log(encAccount);
+          return this.accountsService.addAccount(encAccount);
+          });
   }
 
 /*

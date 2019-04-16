@@ -7,7 +7,7 @@ export class Account {
     public other: object;
     public file;
 
-    constructor(index, name, enpassword) {
+    constructor(index: number, name: string, enpassword: CryptedObject) {
         this.index = index;
         this.name = name;
         this.enpassword = enpassword;
