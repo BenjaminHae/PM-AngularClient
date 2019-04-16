@@ -61,19 +61,23 @@ export class BackendService {
     subscriptionExecutor(this.loginObservers, null);
     this.accountsService.getAccounts()
       .subscribe((accounts: Array<encryptedAccount>) => {
-          console.log('received accounts');
-          let promises: Array<PromiseLike<Account>> = [];
-          accounts.forEach((encaccount: encryptedAccount) => {
-              let promise = this.accountTransformer.decryptAccount(encaccount);
-              promises.push(promise);
-              });
-          Promise.all(promises).then((accounts: Array<Account>) => {
-              console.log('decrypted accounts');
-              console.log(accounts);
-              this.accounts = accounts;
-              subscriptionExecutor(this.accountsObservers, accounts);
-              });
+          this.parseAccounts(accounts);
           });
+  }
+
+  private parseAccounts(accounts: Array<encryptedAccount>): void {
+    console.log('received accounts');
+    let promises: Array<PromiseLike<Account>> = [];
+    accounts.forEach((encaccount: encryptedAccount) => {
+        let promise = this.accountTransformer.decryptAccount(encaccount);
+        promises.push(promise);
+        });
+    Promise.all(promises).then((accounts: Array<Account>) => {
+        console.log('decrypted accounts');
+        console.log(accounts);
+        this.accounts = accounts;
+        subscriptionExecutor(this.accountsObservers, accounts);
+        });
   }
 
   register(username: string, password: string, email: string): PromiseLike<Observable<any>> {
@@ -90,7 +94,11 @@ export class BackendService {
     return this.accountTransformer.encryptAccount(account)
       .then((encAccount: encryptedAccount) => {
           console.log(encAccount);
-          return this.accountsService.addAccount(encAccount);
+          let observable = this.accountsService.addAccount(encAccount);
+          observable.subscribe((accounts: Array<encryptedAccount>) => {
+              this.parseAccounts(accounts);
+              });
+          return observable;
           });
   }
 
