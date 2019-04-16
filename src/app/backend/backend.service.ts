@@ -98,4 +98,12 @@ export class BackendService {
           });
   }
 
+  updateAccount(account: Account): PromiseLike<Observable<any>> {
+    return this.accountTransformer.encryptAccount(account)
+      .then((encAccount: encryptedAccount) => {
+          return this.accountsService.updateAccount(encAccount)
+          .pipe(this.parseAccounts());
+          });
+  }
+
 }
