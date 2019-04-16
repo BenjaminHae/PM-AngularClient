@@ -15,26 +15,6 @@ export class Account {
         this.file = null;
     }
 
-    get accountName() {
-        return this.name;
-    }
-    setAccountName(name) {
-      this.name = name;
-    }
-    getPassword(){
-        //return this.encryptionWrapper.decryptPassword(this.name, this.enpassword);
-    }
-    get password() {
-        return this.getPassword();
-    }
-    setPassword(password){
-        var self = this;
-        //return this.encryptionWrapper.encryptPassword(this.name, password)
-        //    .then(function(enPass){
-        //        self.enpassword = enPass;
-        //        return enPass;
-        //    });
-    }
     clearOther() {
         this.other = {};
     }
