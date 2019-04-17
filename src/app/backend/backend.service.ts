@@ -106,4 +106,8 @@ export class BackendService {
           });
   }
 
+  deleteAccount(account: Account): Observable<any> {
+    return this.accountsService.deleteAccount(account.index)
+      .pipe(this.parseAccounts());
+  }
 }

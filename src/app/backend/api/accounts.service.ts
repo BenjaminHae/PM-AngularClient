@@ -35,4 +35,9 @@ export class AccountsService {
     return this.accountsService.updateAccount(this.accountTransformer.encryptedAccountToOpenAPI(account))
       .pipe(this.mapAccounts());
   }
+
+  deleteAccount(index: number) {
+    return this.accountsService.deleteAccount({"index":index})
+      .pipe(this.mapAccounts());
+  }
 }
