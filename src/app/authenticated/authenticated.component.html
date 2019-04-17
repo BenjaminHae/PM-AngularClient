@@ -1,2 +1,2 @@
-<app-password-list></app-password-list>
-<app-add-account></app-add-account>
+<app-password-list (updateAccount)="this.selectedAccount= $event"></app-password-list>
+<app-add-account [updateAccount]="selectedAccount"></app-add-account>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { BackendService } from '../backend/backend.service';
 import { Account } from '../backend/models/account';
 
@@ -8,6 +8,7 @@ import { Account } from '../backend/models/account';
   styleUrls: ['./password-list.component.css']
 })
 export class PasswordListComponent implements OnInit {
+  @Output() updateAccount = new EventEmitter();
 
   accounts: Account[];
 
@@ -27,6 +28,10 @@ export class PasswordListComponent implements OnInit {
   selectedAccount: Account;
   onSelect(account: Account): void {
     this.selectedAccount = account;
+  }
+
+  updateAccountClick(account: Account): void {
+    this.updateAccount.emit(account);
   }
 
 }
