@@ -11,7 +11,11 @@ import { CryptedObject } from '../backend/models/cryptedObject';
   styleUrls: ['./add-account.component.css']
 })
 export class AddAccountComponent implements OnInit {
-  @Input() account: Account;
+  private account: Account;
+  @Input('updateAccount')
+  set updateAccount(value: Account) {
+    this.account = value;
+  }
   private password: string = "";
   private message: string = "";
 
@@ -32,7 +36,22 @@ export class AddAccountComponent implements OnInit {
   }
 
   store() {
-    this.crypto.encryptChar(this.password)
+    //Only look at password if it has changed
+    let PasswordPromise: PromiseLike<CryptedObject>;
+    if (this.password.dirty || this.password.touched) {
+      console.log("passwordChanged");
+      PasswordPromise = this.crypto.encryptChar(this.password);
+    }
+    else if (!this.account.index) {
+      // Todo auto-generate password
+      console.log("Todo auto generate password");
+      PasswordPromise = this.crypto.encryptChar(this.password);
+    }
+    else{
+      console.log("keeping old password");
+      PasswordPromise = Promise.resolve(this.account.enpassword);
+    }
+    PasswordPromise
       .then((enpassword) => {
           this.account.enpassword = enpassword;
           if (!this.account.index) {
@@ -46,6 +65,9 @@ export class AddAccountComponent implements OnInit {
         observable.subscribe((message)=> {
             this.message = "registrating successful";
             });
+        })
+    .then(() => {
+        this.account = new Account(null, "", null);
         });
   }
 }
