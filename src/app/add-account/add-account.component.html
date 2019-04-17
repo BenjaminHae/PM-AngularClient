@@ -2,6 +2,8 @@
 <input type="text" [(ngModel)]="account.name" name="username"/><br/>
 <input type="password" [(ngModel)]="password" name="password"/><br/>
 <input type="text" [(ngModel)]="account.other" name="other"/><br/>
-<button (click)="store()">Store</button>
+<button (click)="storeAccount()">Store</button>
+<button (click)="deleteAccount()" *ngIf="account.index">Delete</button>
+<button (click)="abort()">Abort</button>
 <span>{{message}}</span>
 </div>

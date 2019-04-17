@@ -35,10 +35,10 @@ export class AddAccountComponent implements OnInit {
     }
   }
 
-  store() {
+  storeAccount() {
     //Only look at password if it has changed
     let PasswordPromise: PromiseLike<CryptedObject>;
-    if (this.password.dirty || this.password.touched) {
+    if (this.password != "") {
       console.log("passwordChanged");
       PasswordPromise = this.crypto.encryptChar(this.password);
     }
@@ -69,5 +69,15 @@ export class AddAccountComponent implements OnInit {
     .then(() => {
         this.account = new Account(null, "", null);
         });
+  }
+
+  deleteAccount() {
+    this.backend.deleteAccount(this.account)
+      .subscribe(()=> {
+              this.message = "deleted successfully";
+          });
+  }
+
+  reset() {
   }
 }
