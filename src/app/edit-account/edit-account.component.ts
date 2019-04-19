@@ -6,9 +6,9 @@ import { Account } from '../backend/models/account';
 import { CryptedObject } from '../backend/models/cryptedObject';
 
 @Component({
-  selector: 'app-add-account',
-  templateUrl: './add-account.component.html',
-  styleUrls: ['./add-account.component.css']
+  selector: 'app-edit-account',
+  templateUrl: './edit-account.component.html',
+  styleUrls: ['./edit-account.component.css']
 })
 export class EditAccountComponent implements OnInit {
   private account: Account;

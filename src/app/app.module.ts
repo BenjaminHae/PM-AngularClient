@@ -16,7 +16,7 @@ import { environment } from '../environments/environment';
 import { RegistrationComponent } from './registration/registration.component';
 import { UnauthenticatedComponent } from './unauthenticated/unauthenticated.component';
 import { AuthenticatedComponent } from './authenticated/authenticated.component';
-import { EditAccountComponent } from './add-account/add-account.component';
+import { EditAccountComponent } from './edit-account/edit-account.component';
 
 export function apiConfigFactory(): Configuration{
   const params: ConfigurationParameters = {
