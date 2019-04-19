@@ -85,7 +85,8 @@ export class EditAccountComponent implements OnInit {
   deleteAccount() {
     this.backend.deleteAccount(this.account)
       .subscribe(()=> {
-              this.message = "deleted successfully";
+          this.message = "deleted successfully";
+          this.resetForm();
           });
   }
 
