@@ -31,7 +31,7 @@ export class EditAccountComponent implements OnInit {
     this.account = new Account(null, "", null);
   }
 
-  setUpdateAccount(account: Acount) {
+  setUpdateAccount(account: Account) {
     this.account = account;
     if (this.account) {
       console.log("retrieve password");
