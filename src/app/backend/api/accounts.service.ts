@@ -37,7 +37,7 @@ export class AccountsService {
   }
 
   deleteAccount(index: number) {
-    return this.accountsService.deleteAccount({"index":index})
+    return this.accountsService.deleteAccount(index)
       .pipe(this.mapAccounts());
   }
 }
