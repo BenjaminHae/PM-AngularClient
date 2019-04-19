@@ -14,7 +14,7 @@ export class EditAccountComponent implements OnInit {
   private account: Account;
   @Input('updateAccount')
   set updateAccount(value: Account) {
-    this.account = value;
+    this.setUpdateAccount(value);
   }
   private password: string = "";
   private message: string = "";
@@ -23,15 +23,26 @@ export class EditAccountComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.resetForm();
+  }
+
+  resetForm() {
     this.password = "";
-    if(this.account) {
+    this.account = new Account(null, "", null);
+  }
+
+  setUpdateAccount(account: Acount) {
+    this.account = account;
+    if (this.account) {
+      console.log("retrieve password");
       this.accountTransformer.getPassword(this.account)
         .then((password) => {
+            console.log("write password to update");
             this.password = password;
             });
     }
     else {
-      this.account = new Account(null, "", null);
+      this.password = "";
     }
   }
 
@@ -67,7 +78,7 @@ export class EditAccountComponent implements OnInit {
             });
         })
     .then(() => {
-        this.account = new Account(null, "", null);
+        this.resetForm();
         });
   }
 
@@ -78,6 +89,7 @@ export class EditAccountComponent implements OnInit {
           });
   }
 
-  reset() {
+  abort() {
+    this.resetForm();
   }
 }
