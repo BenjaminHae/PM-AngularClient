@@ -15,11 +15,9 @@ export class PasswordComponent implements OnInit {
       });
   }
 
-  transformer: AccountTransformerService;
   password: string;
 
-  constructor(transformer: AccountTransformerService) {
-    this.transformer = transformer;
+  constructor(private transformer: AccountTransformerService) {
   }
 
   ngOnInit() {
@@ -27,5 +25,9 @@ export class PasswordComponent implements OnInit {
 
   clearPassword() {
     this.password = undefined;
+  }
+
+  passwordClick() {
+    this.clearPassword();
   }
 }

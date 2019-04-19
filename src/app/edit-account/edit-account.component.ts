@@ -10,7 +10,7 @@ import { CryptedObject } from '../backend/models/cryptedObject';
   templateUrl: './add-account.component.html',
   styleUrls: ['./add-account.component.css']
 })
-export class AddAccountComponent implements OnInit {
+export class EditAccountComponent implements OnInit {
   private account: Account;
   @Input('updateAccount')
   set updateAccount(value: Account) {
