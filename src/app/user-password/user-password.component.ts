@@ -19,12 +19,23 @@ export class UserPasswordComponent implements OnInit {
 
   changePassword() {
     console.log(this.newPassword1);
-    this.backend.changeUserPassword(this.newPassword1)
-      .then((obs)=>{
-          obs
-          .subscribe(()=> {
-              this.message = "Successful, please reload and relogin";
-              });
-          });
+    if (this.newPassword1 !== this.newPassword2) {
+      this.message = "new passwords do not match";
+      return
+    }
+    this.backend.verifyPassword(this.newPassword1)
+      .then((result) => {
+          if (!result) {
+            this.message = "old password does not match";
+            return Promise.reject();
+          }
+          return this.backend.changeUserPassword(this.newPassword1)
+          })
+    .then((obs)=>{
+        obs
+        .subscribe(()=> {
+            this.message = "Successful, please reload and relogin";
+            });
+        })
   }
 }

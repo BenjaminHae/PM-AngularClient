@@ -78,6 +78,22 @@ export class BackendService {
       });
   }
 
+  verifyPassword(password: string): PromiseLike<boolean> {
+    let testCredentials = new CredentialProvider();
+    let newHash: CryptedObject;
+    return testCredentials.generateFromPassword(password)
+      .then(() => {
+          return this.crypto.encryptChar(this.serverSettings.passwordGenerator, new Uint8Array(12), testCredentials)
+          })
+    .then((newPasswordHash: CryptedObject) => {
+newHash = newPasswordHash;
+          return this.crypto.encryptChar(this.serverSettings.passwordGenerator, new Uint8Array(12))
+        })
+     .then((oldPasswordHash: CryptedObject) => {
+        return oldPasswordHash.toBase64JSON() !== newHash.toBase64JSON();
+      });
+  }
+
   reencryptAccount(account: Account, newCredentials: CredentialProvider): PromiseLike<encryptedAccount> {
     return this.accountTransformer.getPassword(account)
       .then((password) => {
