@@ -13,14 +13,13 @@ export class AccountTransformerService {
   constructor(private crypto: CryptoService) {
   }
 
-  encryptAccount(account: Account): PromiseLike<encryptedAccount> {
+  encryptAccount(account: Account, credentials = undefined): PromiseLike<encryptedAccount> {
     let name: CryptedObject;
-    let password: CryptedObject;
     let other: CryptedObject;
-    return this.crypto.encryptChar(account.name)
+    return this.crypto.encryptChar(account.name, undefined, credentials)
       .then((_name: CryptedObject) => {
           name = _name;
-          return this.crypto.encryptChar(account.getOtherJSON());
+          return this.crypto.encryptChar(account.getOtherJSON(), undefined, credentials);
         })
       .then((_other: CryptedObject) => {
           other = _other;

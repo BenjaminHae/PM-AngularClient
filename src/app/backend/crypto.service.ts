@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CredentialService } from './credential.service';
+import { CredentialProvider } from './controller/credentialProvider';
 import { CryptedObject } from './models/cryptedObject';
 
 @Injectable({
@@ -10,7 +11,7 @@ export class CryptoService {
   constructor(private credentials: CredentialService) {
   }
 
-  decryptChar(crypt: CryptedObject): PromiseLike<string> {
+  decryptChar(crypt: CryptedObject, credentials: CredentialProvider=this.credentials.credentialProvider): PromiseLike<string> {
     return window.crypto.subtle.decrypt(
       {
         name: "AES-GCM",
@@ -24,7 +25,7 @@ export class CryptoService {
     });
   }
 
-  encryptChar(plaintext: string, iv = window.crypto.getRandomValues(new Uint8Array(12))): PromiseLike<CryptedObject> {
+  encryptChar(plaintext: string, iv = window.crypto.getRandomValues(new Uint8Array(12)), credentials: CredentialProvider=this.credentials.credentialProvider): PromiseLike<CryptedObject> {
     return window.crypto.subtle.encrypt(
       {
         name: "AES-GCM",

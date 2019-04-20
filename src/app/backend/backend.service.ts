@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators';
 import { ServerSettings } from './models/serverSettings';
 import { AccountTransformerService } from './controller/account-transformer.service';
 import { CredentialService } from './credential.service';
+import { CredentialProvider } from './controller/credentialProvider';
 import { CryptoService } from './crypto.service';
 
 function subscriptionCreator(list): any {
@@ -49,11 +50,44 @@ export class BackendService {
       .then((key) => {
           return this.crypto.encryptChar(this.serverSettings.passwordGenerator, new Uint8Array(12))
           })
-    .then((ciphertext: CryptedObject) => {
-        return this.userService.logon(username, ciphertext.toBase64JSON())
+    .then((passwordHash: CryptedObject) => {
+        return this.userService.logon(username, passwordHash)
         .subscribe(() => {
             this.afterLogin();
             });
+        });
+  }
+
+  changeUserPassword(newPassword: string): PromiseLike<Observable<any>> {
+    let newCredentials = new CredentialProvider();
+    let newHash: CryptedObject;
+    return newCredentials.generateFromPassword(newPassword)
+      .then(() => {
+          return this.crypto.encryptChar(this.serverSettings.passwordGenerator, new Uint8Array(12))
+          })
+    .then((newPasswordHash: CryptedObject): PromiseLike<Array<encryptedAccount>> => {
+        newHash = newPasswordHash;
+        let newAccounts: Array<PromiseLike<encryptedAccount>>;
+        for (let account of this.accounts) {
+          newAccounts.push(this.reencryptAccount(account, newCredentials));
+          }
+        return Promise.all(newAccounts);
+        })
+      .then((encryptedAccounts: Array<encryptedAccount>) => {
+        return this.userService.changePassword(newHash, encryptedAccounts);
+      });
+  }
+
+  reencryptAccount(account: Account, newCredentials: CredentialProvider): PromiseLike<encryptedAccount> {
+    return this.accountTransformer.getPassword(account)
+      .then((password) => {
+          return this.crypto.encryptChar(password, undefined, newCredentials);
+          //todo!
+
+          })
+    .then((enpassword) => {
+        account.enpassword = enpassword;
+        return this.accountTransformer.encryptAccount(account, newCredentials);
         });
   }
 
@@ -110,4 +144,5 @@ export class BackendService {
     return this.accountsService.deleteAccount(account.index)
       .pipe(this.parseAccounts());
   }
+
 }
