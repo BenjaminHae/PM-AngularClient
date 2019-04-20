@@ -26,7 +26,7 @@ export class UserService {
   }
 
   changePassword(newHash: CryptedObject, accounts: Array<encryptedAccount>): Observable<any> {
-    let requestData: OpenAPIChangePassword;
+    let requestData: OpenAPIChangePassword = {};
     requestData.newPassword = newHash.toBase64JSON();
     requestData.accounts = accounts.map((account) => {
         return this.accountTransformer.encryptedAccountToOpenAPI(account);

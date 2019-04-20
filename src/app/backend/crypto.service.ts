@@ -17,7 +17,7 @@ export class CryptoService {
         name: "AES-GCM",
         iv: crypt.iv,
       },
-      this.credentials.getKey(),
+      credentials.getKey(),
       crypt.ciphertext
     )
     .then((plaintext) => {
@@ -31,7 +31,7 @@ export class CryptoService {
         name: "AES-GCM",
         iv: iv,
       },
-      this.credentials.getKey(),
+      credentials.getKey(),
       this.str2ab(plaintext)
     )
     .then((ciphertext) => {

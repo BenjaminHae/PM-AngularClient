@@ -63,11 +63,11 @@ export class BackendService {
     let newHash: CryptedObject;
     return newCredentials.generateFromPassword(newPassword)
       .then(() => {
-          return this.crypto.encryptChar(this.serverSettings.passwordGenerator, new Uint8Array(12))
+          return this.crypto.encryptChar(this.serverSettings.passwordGenerator, new Uint8Array(12), newCredentials)
           })
     .then((newPasswordHash: CryptedObject): PromiseLike<Array<encryptedAccount>> => {
         newHash = newPasswordHash;
-        let newAccounts: Array<PromiseLike<encryptedAccount>>;
+        let newAccounts: Array<PromiseLike<encryptedAccount>> = [];
         for (let account of this.accounts) {
           newAccounts.push(this.reencryptAccount(account, newCredentials));
           }
