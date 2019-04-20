@@ -32,7 +32,7 @@ export class AccountsService {
   }
 
   updateAccount(account: encryptedAccount): Observable<any> {
-    return this.accountsService.updateAccount(this.accountTransformer.encryptedAccountToOpenAPI(account))
+    return this.accountsService.updateAccount(account.index, this.accountTransformer.encryptedAccountToOpenAPI(account))
       .pipe(this.mapAccounts());
   }
 
