@@ -17,6 +17,8 @@ import { RegistrationComponent } from './registration/registration.component';
 import { UnauthenticatedComponent } from './unauthenticated/unauthenticated.component';
 import { AuthenticatedComponent } from './authenticated/authenticated.component';
 import { EditAccountComponent } from './edit-account/edit-account.component';
+import { UserOptionsComponent } from './user-options/user-options.component';
+import { UserPasswordComponent } from './user-password/user-password.component';
 
 export function apiConfigFactory(): Configuration{
   const params: ConfigurationParameters = {
@@ -36,7 +38,9 @@ export function apiConfigFactory(): Configuration{
     RegistrationComponent,
     UnauthenticatedComponent,
     AuthenticatedComponent,
-    EditAccountComponent
+    EditAccountComponent,
+    UserOptionsComponent,
+    UserPasswordComponent
   ],
   imports: [
     BrowserModule,
