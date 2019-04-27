@@ -1,0 +1,9 @@
+<h3>Import data</h3>
+<div class="Block">
+    <p>{{message}}</p>
+  <label id="lbl">CSV-File to import </label>
+  <input type='file' (change)="fileChanged($event)">
+  <ng-container *ngFor="let header of headers">
+    <span>{{header}}</span>
+  </ng-container>
+</div>

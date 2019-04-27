@@ -19,6 +19,7 @@ import { AuthenticatedComponent } from './authenticated/authenticated.component'
 import { EditAccountComponent } from './edit-account/edit-account.component';
 import { UserOptionsComponent } from './user-options/user-options.component';
 import { UserPasswordComponent } from './user-password/user-password.component';
+import { CsvImportComponent } from './csv-import/csv-import.component';
 
 export function apiConfigFactory(): Configuration{
   const params: ConfigurationParameters = {
@@ -40,7 +41,8 @@ export function apiConfigFactory(): Configuration{
     AuthenticatedComponent,
     EditAccountComponent,
     UserOptionsComponent,
-    UserPasswordComponent
+    UserPasswordComponent,
+    CsvImportComponent
   ],
   imports: [
     BrowserModule,
