@@ -3,7 +3,18 @@
     <p>{{message}}</p>
   <label id="lbl">CSV-File to import </label>
   <input type='file' (change)="fileChanged($event)">
-  <ng-container *ngFor="let header of headers">
-    <span>{{header}}</span>
-  </ng-container>
+  <table>
+    <tr>
+      <ng-container *ngFor="let header of headers">
+        <th>{{header}}</th>
+      </ng-container>
+    </tr>
+    <ng-container *ngFor="let account of accounts">
+    <tr>
+      <ng-container *ngFor="let header of headers">
+        <td>{{account[header]}}</td>
+      </ng-container>
+    </tr>
+    </ng-container>
+  </table>
 </div>

@@ -11,6 +11,7 @@ export class CsvImportComponent implements OnInit {
   parser: CsvParser;
   headers: Array<string>;
   message: string;
+  accounts: Array<any>;
 
   constructor() { }
 
@@ -33,7 +34,8 @@ export class CsvImportComponent implements OnInit {
   }
 
   showInformation(): void {
-    this.headers = this.parser.getHeaders()
+    this.headers = this.parser.getHeaders();
+    this.accounts = this.parser.getRows();
   }
 
 }

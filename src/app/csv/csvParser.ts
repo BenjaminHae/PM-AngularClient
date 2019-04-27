@@ -43,8 +43,12 @@ export class CsvParser {
       return this.result.meta.delimiter;
   }
 
+  getRows(): Array<object> {
+    return this.result.data;
+  }
+
   outputData(): Array<object> {
-    return [];
+    return this.result.data;
     // Todo
   }
 }
