@@ -21,8 +21,10 @@
     "@angular/platform-browser-dynamic": "^7.2.9",
     "@angular/router": "^7.2.9",
     "@pm-server/pm-server": "file:../pm-new-server/OpenAPIAngularClient/dist",
+    "@types/papaparse": "^4.5.9",
     "core-js": "^2.6.5",
     "crypto-js": "^3.1.9-1",
+    "papaparse": "^4.6.3",
     "rxjs": "~6.4.0",
     "zone.js": "^0.8.29"
   },
