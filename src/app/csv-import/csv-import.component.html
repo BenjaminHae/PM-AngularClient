@@ -5,21 +5,13 @@
   <input type='file' (change)="fileChanged($event)">
   <table>
     <tr>
-    <ng-container *ngFor="let entry of mapping | keyvalue">
-        <th>{{entry.key}}</th>
-    </ng-container>
+        <th *ngFor="let entry of mapping | keyvalue">{{entry.key}}</th>
     </tr>
     <tr>
-    <ng-container *ngFor="let entry of mapping | keyvalue">
-        <th><app-csv-destination-selector [selected]="entry.value" [availableFields]="availableFields"></app-csv-destination-selector></th>
-    </ng-container>
+        <th *ngFor="let entry of mapping | keyvalue"><app-csv-destination-selector [selected]="entry.value" [availableFields]="availableFields"></app-csv-destination-selector></th>
     </tr>
-    <ng-container *ngFor="let account of accounts">
-    <tr>
-      <ng-container *ngFor="let header of headers">
-        <td>{{account[header]}}</td>
-      </ng-container>
+    <tr *ngFor="let account of accounts">
+        <td *ngFor="let header of headers">{{account[header]}}</td>
     </tr>
-    </ng-container>
   </table>
 </div>
