@@ -38,7 +38,6 @@ export class CsvParser {
     if (this.availableFields) {
       toMap = toMap.concat(this.availableFields);
     }
-    console.log(toMap);
     for (let item of this.getHeaders()) {
       if (toMap.includes(item)) {
         this.setHeaderMapping(item, item);
@@ -66,7 +65,6 @@ export class CsvParser {
         console.log("duplicate: "+ csvName + " -> " + internalName);
         return false;
     }
-    console.log("mapping: "+ csvName + " -> " + internalName);
     this.headerMapping.set(csvName, internalName);
     return true;
   }
