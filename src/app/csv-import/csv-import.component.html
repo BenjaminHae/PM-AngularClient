@@ -8,7 +8,9 @@
         <th *ngFor="let entry of mapping | keyvalue">{{entry.key}}</th>
     </tr>
     <tr>
-        <th *ngFor="let entry of mapping | keyvalue"><app-csv-destination-selector [selected]="entry.value" [availableFields]="availableFields"></app-csv-destination-selector></th>
+        <th *ngFor="let entry of mapping | keyvalue">
+          <app-csv-destination-selector [selected]="entry.value" (selectedChange)="onMappingChange(entry.key, $event)" [availableFields]="availableFields"></app-csv-destination-selector>
+        </th>
     </tr>
     <tr *ngFor="let account of accounts">
         <td *ngFor="let header of headers">{{account[header]}}</td>

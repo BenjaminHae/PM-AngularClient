@@ -49,4 +49,9 @@ export class CsvImportComponent implements OnInit {
   importData(): void {
   }
 
+  onMappingChange(key, value: string) {
+    this.parser.setHeaderMapping(key, value);
+    this.mapping = this.parser.getHeaderMappings();
+  }
+
 }
