@@ -1,0 +1,4 @@
+<select [(ngModel)]="selected">
+  <option value="undefined">undefined</option>
+  <option *ngFor="let field of availableFields" [ngValue]="field">{{field}}</option>
+</select>

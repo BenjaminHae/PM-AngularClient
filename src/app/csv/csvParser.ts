@@ -1,16 +1,17 @@
 import { parse } from 'papaparse';
+import { Account } from '../backend/models/account';
 
 // CsvParser class using papaparse
 
 export class CsvParser {
   private result: any;
-  public useHeaders: boolean = true;
   private headerMapping: Map<string, string> = new Map<string, string>();
+  public availableFields: Array<string>;
 
   parseFile(file, preview = 0): PromiseLike<void> {
     return new Promise((resolve, reject) => {
         parse(file, {
-          header: this.useHeaders,
+          header: true,
           preview: preview,
           complete: (result) => {
             this.result = result;
@@ -24,15 +25,50 @@ export class CsvParser {
   }
 
   preview(file): PromiseLike<void> {
-    return this.parseFile(file, 5);
+    return this.parseFile(file, 5)
+      .then(() => {
+            if (this.headerMapping.size < 1) {
+              this.autoHeaderMapping();
+            }
+          });
+  }
+
+  autoHeaderMapping(): void {
+    let toMap = ["name", "password"];
+    if (this.availableFields) {
+      toMap = toMap.concat(this.availableFields);
+    }
+    console.log(toMap);
+    for (let item of this.getHeaders()) {
+      if (toMap.includes(item)) {
+        this.setHeaderMapping(item, item);
+      }
+      else {
+        this.setHeaderMapping(item, null);
+      }
+    }
   }
 
   getHeaderMappings(): Map<string, string> {
     return this.headerMapping;
   }
 
-  setHeaderMapping(internalName: string, csvName: string): void {
-    this.headerMapping[internalName] = csvName;
+  setHeaderMapping(csvName: string, internalName: string): boolean {
+    let duplicates = false;
+    this.headerMapping.forEach((value, key) => {
+        if (value) {
+          if (value === internalName) {
+            duplicates = true;
+          }
+        }
+      });
+    if (duplicates) {
+        console.log("duplicate: "+ csvName + " -> " + internalName);
+        return false;
+    }
+    console.log("mapping: "+ csvName + " -> " + internalName);
+    this.headerMapping.set(csvName, internalName);
+    return true;
   }
 
   getHeaders(): Array<string> {
@@ -45,6 +81,11 @@ export class CsvParser {
 
   getRows(): Array<object> {
     return this.result.data;
+  }
+
+  private convertDataToAccount(data): Account {
+//Todo
+    return new Account(null,null,null);
   }
 
   outputData(): Array<object> {
