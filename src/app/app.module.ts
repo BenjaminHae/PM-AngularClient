@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ApiModule, BASE_PATH, Configuration, ConfigurationParameters } from '@pm-server/pm-server';
 
@@ -21,6 +21,8 @@ import { UserOptionsComponent } from './user-options/user-options.component';
 import { UserPasswordComponent } from './user-password/user-password.component';
 import { CsvImportComponent } from './csv-import/csv-import.component';
 import { CsvDestinationSelectorComponent } from './csv-import/csv-destination-selector/csv-destination-selector.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatInputModule, MatButtonModule, MatSelectModule, MatCheckboxModule, MatCardModule, MatTabsModule, MatIconModule, MatTableModule } from '@angular/material';
 
 export function apiConfigFactory(): Configuration{
   const params: ConfigurationParameters = {
@@ -51,7 +53,17 @@ export function apiConfigFactory(): Configuration{
     AppRoutingModule,
     FormsModule,
     ApiModule.forRoot(apiConfigFactory),
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatTabsModule,
+    MatIconModule,
+    MatTableModule,
+    ReactiveFormsModule
   ],
   providers: [/*TouchidService*/],
   bootstrap: [AppComponent]
