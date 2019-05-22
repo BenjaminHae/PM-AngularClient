@@ -1,5 +1,11 @@
-<div>
-  <app-login *ngIf="!showRegistration"></app-login>
-  <app-registration *ngIf="showRegistration"></app-registration>
-  <button *ngIf="backend.serverSettings.allowRegistration" type="button" label="Login" (click)="toggleRegistrationLogin()">{{showRegistration ? "Login" : "Registration" }}</button>
-</div>
+<mat-tab-group>
+  <mat-tab label="Login">
+    <app-login></app-login>
+  </mat-tab>
+  <mat-tab *ngIf="backend.serverSettings.allowRegistration" label="Registration">
+    <app-registration></app-registration>
+  </mat-tab>
+  <mat-tab label="demo">
+  </mat-tab>
+</mat-tab-group>
+

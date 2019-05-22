@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LogonPersistenceService } from '../logon-persistence.service';
 import { BackendService } from '../backend/backend.service';
+import { FormBuilder, Validators } from '@angular/forms';
 //import { UserService } from '@pm-server/pm-server';
 
 @Component({
@@ -9,16 +10,22 @@ import { BackendService } from '../backend/backend.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  loginForm = this.fb.group({
+    username: [null, Validators.required],
+    password: [null, Validators.required],
+    storeLogin: [null, Validators.required]
+  });
 
   logonNecessary: boolean  = true;
   storeLogin: boolean  = true;
   storedLoginAvailable: boolean = false;
+  hide: boolean = true;
 
   username: string = "tester";
   password: string = "testtest2";
   message: string = "wait for button click";
 
-  constructor(/*private userApi: UserService*//*private logonPersistence: LogonPersistenceService, */private backendService: BackendService) {
+  constructor(/*private userApi: UserService*//*private logonPersistence: LogonPersistenceService, */private backendService: BackendService, private fb: FormBuilder) {
   }
 
   ngOnInit() {
@@ -44,8 +51,9 @@ export class LoginComponent implements OnInit {
   }
 
   doCredentialLogon(): void {
+    console.log(this.loginForm.controls);
     this.message += "; Logging in";
-    this.backendService.logon(this.username, this.password);
+    this.backendService.logon(this.loginForm.controls.username.value, this.loginForm.controls.password.value);
  /*   this.userApi.loginUser({"username":this.username, "password": this.password })
       .subscribe(console.log);*/
     /*

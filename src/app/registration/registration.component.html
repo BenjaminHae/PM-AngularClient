@@ -1,8 +1,54 @@
-<div>
-<input type="text" [(ngModel)]="username" name="username"/><br/>
-<input type="password" [(ngModel)]="password" name="password"/><br/>
-<input type="password" [(ngModel)]="passwordRepeat" name="passwordRepeat"/><br/>
-<input type="text" [(ngModel)]="email" name="email"/><br/>
-<button (click)="register()">Register</button>
-<span>{{message}}</span>
-</div>
+<form [formGroup]="registrationForm" novalidate (ngSubmit)="register()">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Registration</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Username</mat-label>
+            <input matInput type="text" placeholder="Username" formControlName="username" autocomplete="username"/>
+            <mat-error *ngIf="hasError('username', 'required')">Username is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Password</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="password" autocomplete="new-password"/>
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-error *ngIf="hasError('password', 'minlength')">Password must be at least 8 characters long.</mat-error>
+            <mat-error *ngIf="hasError('password', 'required')">Password is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Password Confirmation</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password confirmation" formControlName="passwordRepeat" [errorStateMatcher]="formErrorMatcher" autocomplete="new-password"/>
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-error *ngIf="formHasError('notSame')">Password confirmation must match password.</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>E-Mail address</mat-label>
+            <input matInput type="text" placeholder="Email" formControlName="email"/>
+            <mat-error *ngIf="hasError('email', 'email')">Must be a valid e-mail address</mat-error>
+            <mat-error *ngIf="hasError('email', 'required')">E-mail address is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!registrationForm.valid">Register</button>
+      <p>{{message}}</p>
+    </mat-card-actions>
+  </mat-card>
+</form>
+
