@@ -66,12 +66,12 @@ export class EditAccountComponent implements OnInit {
       .then((enpassword) => {
           this.account.enpassword = enpassword;
           if (!this.account.index) {
-          return this.backend.addAccount(this.account);
+            return this.backend.addAccount(this.account);
           }
           else {
-          return this.backend.updateAccount(this.account);
+            return this.backend.updateAccount(this.account);
           }
-          })
+        })
     .then((observable) => {
         observable.subscribe((message)=> {
             this.message = "registrating successful";
