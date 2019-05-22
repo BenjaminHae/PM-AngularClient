@@ -141,11 +141,20 @@ newHash = newPasswordHash;
   }
 
   addAccount(account: Account): PromiseLike<Observable<any>> {
-    return this.accountTransformer.encryptAccount(account)
-      .then((encAccount: encryptedAccount) => {
-          return this.accountsService.addAccount(encAccount)
+    return this.addAccounts([account]);
+  }
+
+  addAccounts(accounts: Array<Account>): PromiseLike<Observable<any>> {
+    let encAccountsPromise: Array<PromiseLike<encryptedAccount>> = [];
+    accounts.forEach((account: Account) => {
+      let encAccount = this.accountTransformer.encryptAccount(account);
+      encAccountsPromise.push(encAccount);
+    });
+    return Promise.all(encAccountsPromise)
+      .then((encAccounts: Array<encryptedAccount>) => {
+        return this.accountsService.addAccounts(encAccounts)
           .pipe(this.parseAccounts());
-          });
+      });
   }
 
   updateAccount(account: Account): PromiseLike<Observable<any>> {
