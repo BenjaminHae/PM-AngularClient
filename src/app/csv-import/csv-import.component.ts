@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CsvParser } from '../csv/csvParser';
+import { CsvConverter } from '../csv/csvConverter';
+import { BackendService } from '../backend/backend.service';
+import { CryptoService } from '../backend/crypto.service';
 
 @Component({
   selector: 'app-csv-import',
@@ -9,21 +12,23 @@ import { CsvParser } from '../csv/csvParser';
 export class CsvImportComponent implements OnInit {
   file:any;
   parser: CsvParser;
+  importer: CsvConverter;
   headers: Array<string>;
+  headersSelector: Array<string>;
   message: string;
-  accounts: Array<any>;
   mapping:  Map<string, string>;
   availableFields: Array<string>;
 
-  constructor() { }
+  constructor(private crypto: CryptoService, private backend: BackendService) {}
 
   ngOnInit() {
     this.availableFields = ["username", "password", "test"];
+    this.importer = new CsvConverter(this.crypto);
   }
 
   fileChanged(e) {
     this.parser = new CsvParser();
-    this.parser.availableFields = this.availableFields;
+    this.importer.availableFields = this.availableFields;
     this.file = e.target.files[0];
     this.message = "reading file";
     this.createPreview();
@@ -32,26 +37,43 @@ export class CsvImportComponent implements OnInit {
   createPreview(): void {
     this.parser.preview(this.file)
       .then(() => {
+            this.importer.autoHeaderMapping(this.parser.getHeaders());
             this.showInformation();
-            this.message = "file read";
+            this.message = "file read, using delimiter '" + this.parser.getDelimiter() + "'";
           });
   }
 
   showInformation(): void {
     this.headers = this.parser.getHeaders();
-    this.accounts = this.parser.getRows();
-    this.mapping = this.parser.getHeaderMappings();
+    this.headersSelector = this.headers.map(s => s+"_selector");
+    this.mapping = this.importer.getHeaderMappings();
   }
 
-  showMapping(): void {
+  getRows(): Array<object> {
+    if (this.parser) {
+      return this.parser.getRows();
+    }
+    return [];
   }
 
   importData(): void {
+    this.parser.parseFile(this.file)
+      .then(() => {
+          console.log(" creating Accounts");
+          return this.importer.createAccounts(this.getRows());
+        })
+      .then((accounts) => {
+          console.log(" sending to backend");
+          return this.backend.addAccounts(accounts);
+        })
+      .then((observable) => {
+        observable.subscribe();
+      });
   }
 
   onMappingChange(key, value: string) {
-    this.parser.setHeaderMapping(key, value);
-    this.mapping = this.parser.getHeaderMappings();
+    this.importer.setHeaderMapping(key, value);
+    this.mapping = this.importer.getHeaderMappings();
   }
 
 }

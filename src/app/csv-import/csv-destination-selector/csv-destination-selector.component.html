@@ -1,4 +1,6 @@
-<select [(ngModel)]="selected" (ngModelChange)="onChange($event)">
-  <option value="undefined">undefined</option>
-  <option *ngFor="let field of availableFields" [ngValue]="field">{{field}}</option>
-</select>
+<mat-form-field class="full-width">
+  <mat-select mat-select [(ngModel)]="selected" (ngModelChange)="onChange($event)">
+    <mat-option value="undefined">undefined</mat-option>
+    <mat-option *ngFor="let field of availableFields" [value]="field">{{field}}</mat-option>
+  </mat-select>
+</mat-form-field>
