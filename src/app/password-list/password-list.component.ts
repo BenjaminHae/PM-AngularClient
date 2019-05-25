@@ -10,6 +10,8 @@ import { Account } from '../backend/models/account';
 export class PasswordListComponent implements OnInit {
   @Output() updateAccount = new EventEmitter();
 
+  activeColumns = ['name','password'];
+
   accounts: Account[];
 
   constructor(private backend: BackendService) { }
@@ -19,10 +21,7 @@ export class PasswordListComponent implements OnInit {
   }
 
   getAccounts(): void {
-    /*this.backendService.getAccounts()
-      .then((accounts: Account[]) => {
-        this.accounts = accounts;
-      });*/
+
   }
 
   selectedAccount: Account;
