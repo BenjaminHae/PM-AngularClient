@@ -25,7 +25,7 @@ export class Account {
             }
         }
     }
-    get availableOthers() {
+    get availableOthers(): Array<string> {
         let availableOthers = [];
         for (let otherName in this.other) {
             availableOthers.push(otherName);
