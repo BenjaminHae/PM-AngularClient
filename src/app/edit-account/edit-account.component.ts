@@ -17,13 +17,13 @@ export class EditAccountComponent implements OnInit {
     password: [null, Validators.required],
     other: [null, Validators.required]
   });
-  private hide: boolean = true;
-  private account: Account;
+  public hide: boolean = true;
+  public account: Account;
   @Input('updateAccount')
   set updateAccount(value: Account) {
     this.setUpdateAccount(value);
   }
-  private message: string = "";
+  public message: string = "";
 
   constructor(private backend:BackendService, private crypto: CryptoService, private accountTransformer: AccountTransformerService, private fb: FormBuilder) {
   }

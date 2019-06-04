@@ -14,7 +14,7 @@ export class PasswordListComponent implements OnInit {
 
   accounts: Account[];
 
-  constructor(private backend: BackendService) { }
+  constructor(public backend: BackendService) { }
 
   ngOnInit() {
   	this.getAccounts();
@@ -26,7 +26,7 @@ export class PasswordListComponent implements OnInit {
 
   selectedAccount: Account;
   onSelect(account: Account): void {
-    this.selectedAccount = account;
+    this.selectedAccount = this.selectedAccount === account ? null : account;
   }
 
   updateAccountClick(account: Account): void {

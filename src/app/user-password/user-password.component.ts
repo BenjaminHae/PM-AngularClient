@@ -7,10 +7,10 @@ import { BackendService } from '../backend/backend.service';
   styleUrls: ['./user-password.component.css']
 })
 export class UserPasswordComponent implements OnInit {
-  private message: string;
-  private currentPassword: string;
-  private newPassword1: string;
-  private newPassword2: string;
+  public message: string;
+  public currentPassword: string;
+  public newPassword1: string;
+  public newPassword2: string;
 
   constructor(private backend: BackendService) { }
 

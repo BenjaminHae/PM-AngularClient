@@ -9,7 +9,7 @@ import { BackendService } from '../backend/backend.service';
 export class UnauthenticatedComponent implements OnInit {
   showRegistration: boolean = false;
 
-  constructor(private backend: BackendService) { }
+  constructor(public backend: BackendService) { }
 
   ngOnInit() {
   }

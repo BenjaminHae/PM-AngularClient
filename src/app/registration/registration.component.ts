@@ -21,8 +21,8 @@ export class RegistrationComponent implements OnInit {
     passwordRepeat: [null],
     email: [null, [Validators.required, Validators.email]],
   }, { validator: this.passwordConfirmValidation });
-  private message: string = "";
-  private hide = true;
+  public message: string = "";
+  public hide = true;
   formErrorMatcher = new CrossFieldErrorMatcher();
 
   // see https://stackoverflow.com/questions/51605737/confirm-password-validation-in-angular-6
