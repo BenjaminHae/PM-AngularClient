@@ -24,6 +24,7 @@ import { CsvDestinationSelectorComponent } from './csv-import/csv-destination-se
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -55,6 +56,9 @@ export function apiConfigFactory(): Configuration{
     CsvImportComponent,
     CsvDestinationSelectorComponent
   ],
+  entryComponents: [
+    EditAccountComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -66,6 +70,7 @@ export function apiConfigFactory(): Configuration{
     MatButtonModule,
     MatSelectModule,
     MatCardModule,
+    MatDialogModule,
     MatCheckboxModule,
     MatTabsModule,
     MatIconModule,

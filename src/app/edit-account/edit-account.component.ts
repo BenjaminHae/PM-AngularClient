@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material';
 import { BackendService } from '../backend/backend.service';
 import { CryptoService } from '../backend/crypto.service';
 import { AccountTransformerService } from '../backend/controller/account-transformer.service';
@@ -25,31 +26,23 @@ export class EditAccountComponent implements OnInit {
   }
   public message: string = "";
 
-  constructor(private backend:BackendService, private crypto: CryptoService, private accountTransformer: AccountTransformerService, private fb: FormBuilder) {
-  }
-
-  ngOnInit() {
-    this.resetForm();
-  }
-
-  resetForm() {
-    this.clearForm();
-    this.account = new Account(null, "", null);
-  }
-
-  clearForm() {
-    this.editAccountForm.controls.username.setValue("");
-    this.editAccountForm.controls.password.setValue("");
-    this.hide = true;
+  constructor(private backend:BackendService, private crypto: CryptoService, private accountTransformer: AccountTransformerService, private fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data: any) {
+    console.log(data);
+    if ("account" in data) {
+      this.setUpdateAccount(data["account"]);
+    }
+    else {
+      this.account = new Account(null, "", null);
+    }
   }
 
   setUpdateAccount(account: Account) {
     this.account = account;
-    this.clearForm();
     if (this.account) {
       console.log(this.account);
       console.log(this.editAccountForm.controls);
       this.editAccountForm.controls.username.setValue(this.account.name);
+      this.editAccountForm.controls.password.setValue("");
       console.log("retrieve password");
     }
   }
@@ -86,9 +79,6 @@ export class EditAccountComponent implements OnInit {
         observable.subscribe((message)=> {
             this.message = "registrating successful";
             });
-        })
-    .then(() => {
-        this.resetForm();
         });
   }
 
@@ -96,17 +86,18 @@ export class EditAccountComponent implements OnInit {
     this.backend.deleteAccount(this.account)
       .subscribe(()=> {
           this.message = "deleted successfully";
-          this.resetForm();
           });
   }
 
   abort() {
-    this.resetForm();
   }
 
   passwordToggle() {
+    console.log("password Toggle");
     this.hide = !this.hide;
+      console.log(this.editAccountForm.controls.password.value);
     if (!this.hide && this.editAccountForm.controls.password.value == "") {
+      console.log("trying to show password");
       this.accountTransformer.getPassword(this.account)
         .then((password) => {
             console.log("write password to update");
