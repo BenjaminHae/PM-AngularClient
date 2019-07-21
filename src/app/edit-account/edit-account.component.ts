@@ -12,7 +12,7 @@ import { FormBuilder, Validators } from '@angular/forms';
   templateUrl: './edit-account.component.html',
   styleUrls: ['./edit-account.component.css']
 })
-export class EditAccountComponent implements OnInit {
+export class EditAccountComponent {
   editAccountForm = this.fb.group({
     username: [null, Validators.required],
     password: [null, Validators.required],
