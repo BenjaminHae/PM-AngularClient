@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { BackendService } from '../backend/backend.service';
 import { CryptoService } from '../backend/crypto.service';
 import { AccountTransformerService } from '../backend/controller/account-transformer.service';
@@ -26,7 +26,7 @@ export class EditAccountComponent implements OnInit {
   }
   public message: string = "";
 
-  constructor(private backend:BackendService, private crypto: CryptoService, private accountTransformer: AccountTransformerService, private fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(private backend:BackendService, private crypto: CryptoService, private accountTransformer: AccountTransformerService, private fb: FormBuilder, public dialogRef: MatDialogRef<EditAccountComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
     console.log(data);
     if ("account" in data) {
       this.setUpdateAccount(data["account"]);
@@ -90,6 +90,8 @@ export class EditAccountComponent implements OnInit {
   }
 
   abort() {
+    this.dialogRef.close();
+
   }
 
   passwordToggle() {
