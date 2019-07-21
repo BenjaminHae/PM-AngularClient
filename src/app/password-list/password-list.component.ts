@@ -1,6 +1,8 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { BackendService } from '../backend/backend.service';
 import { Account } from '../backend/models/account';
+import { EditAccountComponent } from '../edit-account/edit-account.component';
+import { MatDialog } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
@@ -22,7 +24,7 @@ export class PasswordListComponent implements OnInit {
 
   accounts: Account[];
 
-  constructor(public backend: BackendService) { }
+  constructor(public backend: BackendService, private dialog: MatDialog) { }
 
   ngOnInit() {
   	this.getAccounts();
@@ -38,7 +40,11 @@ export class PasswordListComponent implements OnInit {
   }
 
   updateAccountClick(account: Account): void {
-    this.updateAccount.emit(account);
+    this.dialog.open(EditAccountComponent, {data: {account: account}});
+  }
+
+  addAccountClick(): void {
+    this.dialog.open(EditAccountComponent, {data: {}});
   }
 
 }
