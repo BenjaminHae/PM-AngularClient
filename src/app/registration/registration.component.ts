@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { BackendService } from '../backend/backend.service';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormBuilder, Validators, FormGroup, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
@@ -34,7 +35,7 @@ export class RegistrationComponent implements OnInit {
   }
 
 
-  constructor(private backend:BackendService, private fb: FormBuilder) {
+  constructor(private backend:BackendService, private fb: FormBuilder, public dialogRef: MatDialogRef<EditAccountComponent>) {
   }
 
   ngOnInit() {
@@ -57,6 +58,7 @@ export class RegistrationComponent implements OnInit {
       .then((observable) => {
           observable.subscribe(()=> {
               this.message = "registrating successful";
+              this.dialogRef.close();
               });
           });
   }
