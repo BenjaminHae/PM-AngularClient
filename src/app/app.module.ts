@@ -22,6 +22,7 @@ import { UserPasswordComponent } from './user-password/user-password.component';
 import { CsvImportComponent } from './csv-import/csv-import.component';
 import { CsvDestinationSelectorComponent } from './csv-import/csv-destination-selector/csv-destination-selector.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSidenavModule, MatListModule, MatToolbarModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -31,6 +32,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
+import { SidenavAuthenticatedComponent } from './sidenav-authenticated/sidenav-authenticated.component';
+import { SidenavUnauthenticatedComponent } from './sidenav-unauthenticated/sidenav-unauthenticated.component';
 
 export function apiConfigFactory(): Configuration{
   const params: ConfigurationParameters = {
@@ -54,10 +57,13 @@ export function apiConfigFactory(): Configuration{
     UserOptionsComponent,
     UserPasswordComponent,
     CsvImportComponent,
-    CsvDestinationSelectorComponent
+    CsvDestinationSelectorComponent,
+    SidenavAuthenticatedComponent,
+    SidenavUnauthenticatedComponent
   ],
   entryComponents: [
-    EditAccountComponent
+    EditAccountComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
@@ -66,6 +72,9 @@ export function apiConfigFactory(): Configuration{
     ApiModule.forRoot(apiConfigFactory),
     HttpClientModule,
     BrowserAnimationsModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
