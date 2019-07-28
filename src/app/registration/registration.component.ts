@@ -35,7 +35,7 @@ export class RegistrationComponent implements OnInit {
   }
 
 
-  constructor(private backend:BackendService, private fb: FormBuilder, public dialogRef: MatDialogRef<EditAccountComponent>) {
+  constructor(private backend:BackendService, private fb: FormBuilder, public dialogRef: MatDialogRef<RegistrationComponent>) {
   }
 
   ngOnInit() {
