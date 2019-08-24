@@ -86,11 +86,11 @@ export class BackendService {
           return this.crypto.encryptChar(this.serverSettings.passwordGenerator, new Uint8Array(12), testCredentials)
           })
     .then((newPasswordHash: CryptedObject) => {
-newHash = newPasswordHash;
+          newHash = newPasswordHash;
           return this.crypto.encryptChar(this.serverSettings.passwordGenerator, new Uint8Array(12))
         })
      .then((oldPasswordHash: CryptedObject) => {
-        return oldPasswordHash.toBase64JSON() !== newHash.toBase64JSON();
+        return oldPasswordHash.toBase64JSON() == newHash.toBase64JSON();
       });
   }
 
