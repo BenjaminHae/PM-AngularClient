@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { CsvParser } from '../csv/csvParser';
 import { CsvConverter } from '../csv/csvConverter';
 import { BackendService } from '../backend/backend.service';
@@ -19,7 +20,7 @@ export class CsvImportComponent implements OnInit {
   mapping:  Map<string, string>;
   availableFields: Array<string>;
 
-  constructor(private crypto: CryptoService, private backend: BackendService) {}
+  constructor(private crypto: CryptoService, private backend: BackendService, public dialogRef: MatDialogRef<CsvImportComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit() {
     this.availableFields = ["username", "password", "test"];
@@ -74,6 +75,10 @@ export class CsvImportComponent implements OnInit {
   onMappingChange(key, value: string) {
     this.importer.setHeaderMapping(key, value);
     this.mapping = this.importer.getHeaderMappings();
+  }
+
+  abort() {
+    this.dialogRef.close();
   }
 
 }

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { BackendService } from '../backend/backend.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class UserPasswordComponent implements OnInit {
   public newPassword1: string;
   public newPassword2: string;
 
-  constructor(private backend: BackendService) { }
+  constructor(private backend: BackendService, public dialogRef: MatDialogRef<UserPasswordComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
   }
@@ -37,5 +38,9 @@ export class UserPasswordComponent implements OnInit {
             this.message = "Successful, please reload and relogin";
             });
         })
+  }
+
+  abort() {
+    this.dialogRef.close();
   }
 }

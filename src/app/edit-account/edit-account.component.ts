@@ -91,7 +91,6 @@ export class EditAccountComponent {
 
   abort() {
     this.dialogRef.close();
-
   }
 
   passwordToggle() {

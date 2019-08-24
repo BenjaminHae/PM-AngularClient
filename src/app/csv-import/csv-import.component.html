@@ -1,44 +1,40 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Import data</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <p>{{message}}</p>
-          <label>CSV-File to import</label>
-          <input type='file' (change)="fileChanged($event)">
-    <table mat-table [dataSource]="getRows()" class="mat-elevation-z8">
-      <ng-container *ngFor="let entry of mapping | keyvalue" matColumnDef="{{entry.key}}">
-        <th mat-header-cell *matHeaderCellDef> {{entry.key}} </th>
-        <td mat-cell *matCellDef="let account">{{account[entry.key]}}</td>
-      </ng-container>
-      <ng-container *ngFor="let entry of mapping | keyvalue" matColumnDef="{{entry.key}}_selector">
-        <th mat-header-cell *matHeaderCellDef>
-          <app-csv-destination-selector [selected]="entry.value" (selectedChange)="onMappingChange(entry.key, $event)" [availableFields]="availableFields"></app-csv-destination-selector>
-        </th>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="headers"></tr>
-      <tr mat-header-row *matHeaderRowDef="headersSelector"></tr>
-      <tr mat-row *matRowDef="let account; columns: headers;"></tr>
+<h1 mat-dialog-title>Import data</h1>
+<div mat-dialog-content>
+  <p>{{message}}</p>
+        <label>CSV-File to import</label>
+        <input type='file' (change)="fileChanged($event)">
+  <table mat-table [dataSource]="getRows()" class="mat-elevation-z8">
+    <ng-container *ngFor="let entry of mapping | keyvalue" matColumnDef="{{entry.key}}">
+      <th mat-header-cell *matHeaderCellDef> {{entry.key}} </th>
+      <td mat-cell *matCellDef="let account">{{account[entry.key]}}</td>
+    </ng-container>
+    <ng-container *ngFor="let entry of mapping | keyvalue" matColumnDef="{{entry.key}}_selector">
+      <th mat-header-cell *matHeaderCellDef>
+        <app-csv-destination-selector [selected]="entry.value" (selectedChange)="onMappingChange(entry.key, $event)" [availableFields]="availableFields"></app-csv-destination-selector>
+      </th>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="headers"></tr>
+    <tr mat-header-row *matHeaderRowDef="headersSelector"></tr>
+    <tr mat-row *matRowDef="let account; columns: headers;"></tr>
 
-    </table>
+  </table>
 <!--
-    <table>
-    <tr>
-    <th *ngFor="let entry of mapping | keyvalue">{{entry.key}}</th>
-    </tr>
-    <tr>
-    <th *ngFor="let entry of mapping | keyvalue">
-    <app-csv-destination-selector [selected]="entry.value" (selectedChange)="onMappingChange(entry.key, $event)" [availableFields]="availableFields"></app-csv-destination-selector>
-    </th>
-    </tr>
-    <tr *ngFor="let account of accounts">
-    <td *ngFor="let header of headers">{{account[header]}}</td>
-    </tr>
-    </table>
+  <table>
+  <tr>
+  <th *ngFor="let entry of mapping | keyvalue">{{entry.key}}</th>
+  </tr>
+  <tr>
+  <th *ngFor="let entry of mapping | keyvalue">
+  <app-csv-destination-selector [selected]="entry.value" (selectedChange)="onMappingChange(entry.key, $event)" [availableFields]="availableFields"></app-csv-destination-selector>
+  </th>
+  </tr>
+  <tr *ngFor="let account of accounts">
+  <td *ngFor="let header of headers">{{account[header]}}</td>
+  </tr>
+  </table>
 -->
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button color="primary" (click)="importData()">Import</button>
-    <button mat-raised-button color="secondary" type="abort">Abort</button>
-  </mat-card-actions>
-</mat-card>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="importData()">Import</button>
+  <button mat-raised-button color="secondary" (click)="abort()">Abort</button>
+</div>

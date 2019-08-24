@@ -63,7 +63,9 @@ export function apiConfigFactory(): Configuration{
   ],
   entryComponents: [
     EditAccountComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    CsvImportComponent,
+    UserPasswordComponent
   ],
   imports: [
     BrowserModule,
