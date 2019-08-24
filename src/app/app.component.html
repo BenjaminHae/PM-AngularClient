@@ -11,11 +11,6 @@
     <app-sidenav-authenticated *ngIf="authenticated"></app-sidenav-authenticated>
   </mat-sidenav>
   <mat-sidenav-content style="max-width: 80%; margin: 0 auto;">
-    <div style="text-align:center">
-      <h1>
-        {{ title }}!
-      </h1>
-    </div>
     <app-unauthenticated *ngIf="!authenticated"></app-unauthenticated>
     <app-authenticated *ngIf="authenticated"></app-authenticated>
     <!-- <ng-template #waitForLogin><app-login></app-login></ng-template>-->
