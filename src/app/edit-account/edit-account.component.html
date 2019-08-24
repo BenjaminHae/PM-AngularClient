@@ -1,9 +1,6 @@
 <form [formGroup]="editAccountForm" novalidate (ngSubmit)="storeAccount()">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>{{account.index ? 'Edit' : 'Add' }} Account</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
+    <h1 mat-dialog-title>{{account.index ? 'Edit' : 'Add' }} Account</h1>
+    <div mat-dialog-content>
       <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
@@ -29,12 +26,11 @@
           </mat-form-field>
         </div>
       </div>
-    </mat-card-content>
-    <mat-card-actions>
+    </div>
+    <div mat-dialog-actions>
       <button mat-raised-button color="primary" type="submit">Store</button>
       <button *ngIf="account.index" mat-raised-button color="warn" (click)="deleteAccount()" type="button">Delete</button>
       <button mat-raised-button color="" (click)="abort()" type="button">Abort</button>
       <span>{{message}}</span>
-    </mat-card-actions>
-  </mat-card>
+    </div>
 </form>
