@@ -35,6 +35,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { SidenavAuthenticatedComponent } from './sidenav-authenticated/sidenav-authenticated.component';
 import { SidenavUnauthenticatedComponent } from './sidenav-unauthenticated/sidenav-unauthenticated.component';
 
+import { TestPluginColumnComponent } from './plugins/test-plugin-column/test-plugin-column.component';
+
 export function apiConfigFactory(): Configuration{
   const params: ConfigurationParameters = {
     apiKeys: {},
@@ -59,13 +61,16 @@ export function apiConfigFactory(): Configuration{
     CsvImportComponent,
     CsvDestinationSelectorComponent,
     SidenavAuthenticatedComponent,
-    SidenavUnauthenticatedComponent
+    SidenavUnauthenticatedComponent,
+    TestPluginColumnComponent
   ],
   entryComponents: [
     EditAccountComponent,
     RegistrationComponent,
     CsvImportComponent,
-    UserPasswordComponent
+    UserPasswordComponent,
+//plugins. ToDo: add at runtime
+    TestPluginColumnComponent
   ],
   imports: [
     BrowserModule,
