@@ -1,9 +1,10 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { BackendService } from '../backend/backend.service';
 import { Account } from '../backend/models/account';
 import { EditAccountComponent } from '../edit-account/edit-account.component';
 import { MatDialog } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { PluginManagerService, PluginInsert } from '../plugins/plugin-manager.service';
 
 @Component({
   selector: 'app-password-list',
@@ -17,21 +18,21 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
     ]),
   ]
 })
-export class PasswordListComponent implements OnInit {
+export class PasswordListComponent {
   @Output() updateAccount = new EventEmitter();
+// ToDo: https://stackoverflow.com/questions/34947154/angular-2-viewchild-annotation-returns-undefined
+  @ViewChild(PluginInsert, {static: true}) set ft(pluginColumn: PluginInsert) {
+    console.log(pluginColumn);
+    if(pluginColumn) {
+      this.pluginManager.fillTableColumns(pluginColumn);
+    }
+  };
 
   activeColumns = ['name','password'];
 
   accounts: Account[];
 
-  constructor(public backend: BackendService, private dialog: MatDialog) { }
-
-  ngOnInit() {
-  	this.getAccounts();
-  }
-
-  getAccounts(): void {
-
+  constructor(public backend: BackendService, private pluginManager: PluginManagerService, private dialog: MatDialog) {
   }
 
   selectedAccount: Account;
