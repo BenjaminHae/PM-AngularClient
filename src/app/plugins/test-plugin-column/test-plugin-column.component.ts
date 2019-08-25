@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Account } from '../backend/models/account';
+import { Component } from '@angular/core';
 
 @Component({
+  selector: 'app-test-plugin-column',
   template: `
     <ng-container matColumnDef>
       <th mat-header-cell *matHeaderCellDef> index </th>
@@ -9,9 +9,10 @@ import { Account } from '../backend/models/account';
     </ng-container>`
 })
 export class TestPluginColumnComponent {
-  @Input('account')
-  account: Account;
 
-  constructor() {
+  constructor() { }
+
+  ngOnInit() {
   }
+
 }
