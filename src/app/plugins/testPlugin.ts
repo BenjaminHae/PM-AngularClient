@@ -1,9 +1,9 @@
 import { Account } from '../backend/models/account';
 import { PluginAccountComponentInterface, PluginAccountListComponentInterface, PluginInterface } from './plugin';
-import { TestPluginColumnComponent } from './testPluginColumnComponent';
+import { TestPluginColumnComponent } from './test-plugin-column/test-plugin-column.component';
 
 export class TestPlugin implements PluginInterface {
-  TableColumnComponent(): PluginAccountComponentInterface | null {
+  TableColumnComponent(): typeof TestPluginColumnComponent {
     return TestPluginColumnComponent;
   }
 
