@@ -1,12 +1,10 @@
 import { Account } from '../backend/models/account';
 import { PluginAccountComponentInterface, PluginAccountListComponentInterface, PluginInterface } from './plugin';
+import { TestPluginColumnComponent } from './testPluginColumnComponent';
 
 export class TestPlugin implements PluginInterface {
   TableColumnComponent(): PluginAccountComponentInterface | null {
-    return null;
-  }
-  TableColumnHeader(): string | null {
-    return "index";
+    return TestPluginColumnComponent;
   }
 
   DetailElementComponent(): PluginAccountComponentInterface | null {
@@ -29,7 +27,7 @@ export class TestPlugin implements PluginInterface {
     return account;
   }
 
-  accountsLoaded(accounts: Array<Accounts>): void {
+  accountsLoaded(accounts: Array<Account>): void {
   }
 
   tableRowDraw(account: Account, row: any): void {

@@ -10,7 +10,6 @@ export interface PluginAccountListComponentInterface {
 
 export interface PluginInterface {
   TableColumnComponent(): PluginAccountComponentInterface | null;
-  TableColumnHeader(): string | null;
   DetailElementComponent(): PluginAccountComponentInterface | null;
   EditElementComponent(): PluginAccountComponentInterface | null;
 
@@ -19,7 +18,7 @@ export interface PluginInterface {
   modifyAddAccount(account: Account): Account;
   modifyEditAccount(oldAccount: Account, account: Account): Account;
 
-  accountsLoaded(accounts: Array<Accounts>): void;
+  accountsLoaded(accounts: Array<Account>): void;
 
   tableRowDraw(account: Account, row: any): void;
 }
