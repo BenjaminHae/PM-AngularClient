@@ -2,6 +2,7 @@ import { Account } from '../backend/models/account';
 import { PluginAccountComponentInterface, PluginAccountListComponentInterface, PluginInterface } from './plugin';
 import { TestPluginColumnComponent } from './test-plugin-column/test-plugin-column.component';
 import { TestPluginDetailComponent } from './test-plugin-detail/test-plugin-detail.component';
+import { TestPluginEditComponent } from './test-plugin-edit/test-plugin-edit.component';
 
 export class TestPlugin implements PluginInterface {
   TableColumnComponent(): typeof TestPluginColumnComponent {
@@ -12,8 +13,8 @@ export class TestPlugin implements PluginInterface {
     return TestPluginDetailComponent;
   }
 
-  EditElementComponent(): PluginAccountComponentInterface | null {
-    return null;
+  EditElementComponent(): typeof TestPluginEditComponent {
+    return TestPluginEditComponent;
   }
 
   OverviewComponent(): PluginAccountListComponentInterface | null {

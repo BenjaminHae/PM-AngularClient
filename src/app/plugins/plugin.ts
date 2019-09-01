@@ -11,7 +11,7 @@ export interface PluginAccountListComponentInterface {
 export interface PluginInterface {
   TableColumnComponent(): any;
   DetailElementComponent(): any;
-  EditElementComponent(): PluginAccountComponentInterface | null;
+  EditElementComponent(): any;
 
   OverviewComponent(): PluginAccountListComponentInterface | null;
 

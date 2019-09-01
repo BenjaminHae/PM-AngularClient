@@ -24,17 +24,23 @@ export class PluginManagerService {
     }
   }
 
-  private fillElements(container: ViewContainerRef, filter: any, account?: Account): void {
+  private fillElementsWithAccount(container: ViewContainerRef, filter: any, account: Account): void {
+    this.fillElements(container, filter, (component: PluginAccountComponentInterface) => {
+      component.account = account;
+    });
+  }
+
+  private fillElements(container: ViewContainerRef, filter: any, setData?: any): void {
+    container.clear();
     for (let plugin of this.pluginInstances) {
       let element = filter(plugin);
       if (!element) {
         continue;
       }
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(element);
-      container.clear();
       const componentRef = container.createComponent(componentFactory);
-      if (account) {
-        (<PluginAccountComponentInterface> componentRef.instance).account = account;
+      if (setData) {
+        setData(<PluginAccountComponentInterface> componentRef.instance);
       }
     }
   }
@@ -44,6 +50,15 @@ export class PluginManagerService {
   }
 
   fillDetails(container: ViewContainerRef, account: Account): void {
-    this.fillElements(container, (plugin) => { return plugin.DetailElementComponent()}, account);
+    this.fillElementsWithAccount(container, (plugin) => { return plugin.DetailElementComponent()}, account);
   }
+
+  fillEdit(container: ViewContainerRef, account: Account): void {
+    this.fillElementsWithAccount(container, (plugin) => { return plugin.EditElementComponent()}, account);
+  }
+
+  fillOverview(container: ViewContainerRef, accounts: Array<Account>) {
+    this.fillElements(container, (plugin) => { return plugin.OverviewComponent()}, (component) => {component.accounts = accounts});
+  }
+
 }
