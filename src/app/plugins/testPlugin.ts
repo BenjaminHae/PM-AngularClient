@@ -1,14 +1,15 @@
 import { Account } from '../backend/models/account';
 import { PluginAccountComponentInterface, PluginAccountListComponentInterface, PluginInterface } from './plugin';
 import { TestPluginColumnComponent } from './test-plugin-column/test-plugin-column.component';
+import { TestPluginDetailComponent } from './test-plugin-detail/test-plugin-detail.component';
 
 export class TestPlugin implements PluginInterface {
   TableColumnComponent(): typeof TestPluginColumnComponent {
     return TestPluginColumnComponent;
   }
 
-  DetailElementComponent(): PluginAccountComponentInterface | null {
-    return null;
+  DetailElementComponent(): typeof TestPluginDetailComponent {
+    return TestPluginDetailComponent;
   }
 
   EditElementComponent(): PluginAccountComponentInterface | null {
