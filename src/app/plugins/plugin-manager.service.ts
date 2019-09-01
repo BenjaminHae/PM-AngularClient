@@ -1,6 +1,7 @@
-import { ComponentFactoryResolver, ViewContainerRef, Directive } from '@angular/core';
+import { Component, ComponentFactoryResolver, ViewContainerRef, Directive } from '@angular/core';
 import { Injectable } from '@angular/core';
-import { PluginInterface } from './plugin';
+import { PluginInterface, PluginAccountComponentInterface } from './plugin';
+import { Account } from '../backend/models/account';
 
 import { TestPlugin } from './testPlugin';
 
@@ -23,16 +24,26 @@ export class PluginManagerService {
     }
   }
 
-  fillTableColumns(container: PluginInsert): void {
+  private fillElements(container: ViewContainerRef, filter: any, account?: Account): void {
     for (let plugin of this.pluginInstances) {
-      let element = plugin.TableColumnComponent();
+      let element = filter(plugin);
       if (!element) {
         continue;
       }
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(element);
-      let viewContainer = container.viewContainerRef;
-      viewContainer.clear();
-      viewContainer.createComponent(componentFactory);
+      container.clear();
+      const componentRef = container.createComponent(componentFactory);
+      if (account) {
+        (<PluginAccountComponentInterface> componentRef.instance).account = account;
+      }
     }
+  }
+
+  fillTableColumns(container: ViewContainerRef): void {
+    this.fillElements(container, (plugin) => { return plugin.TableColumnComponent()});
+  }
+
+  fillDetails(container: ViewContainerRef, account: Account): void {
+    this.fillElements(container, (plugin) => { return plugin.DetailElementComponent()}, account);
   }
 }

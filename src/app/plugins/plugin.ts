@@ -10,7 +10,7 @@ export interface PluginAccountListComponentInterface {
 
 export interface PluginInterface {
   TableColumnComponent(): any;
-  DetailElementComponent(): PluginAccountComponentInterface | null;
+  DetailElementComponent(): any;
   EditElementComponent(): PluginAccountComponentInterface | null;
 
   OverviewComponent(): PluginAccountListComponentInterface | null;
