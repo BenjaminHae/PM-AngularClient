@@ -5,12 +5,12 @@
   </button>
   <span>{{ title }}</span>
 </mat-toolbar>
-<mat-sidenav-container>
-  <mat-sidenav #sidenav>
+<mat-sidenav-container position="start">
+  <mat-sidenav #sidenav [fixedInViewport]="true" mode="push">
     <app-sidenav-unauthenticated *ngIf="!authenticated"></app-sidenav-unauthenticated>
     <app-sidenav-authenticated *ngIf="authenticated"></app-sidenav-authenticated>
   </mat-sidenav>
-  <mat-sidenav-content style="max-width: 80%; margin: 0 auto;">
+  <mat-sidenav-content style="max-width: 80%; margin: 0 auto; height: 100%;">
     <app-unauthenticated *ngIf="!authenticated"></app-unauthenticated>
     <app-authenticated *ngIf="authenticated"></app-authenticated>
     <!-- <ng-template #waitForLogin><app-login></app-login></ng-template>-->
