@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ViewContainerRef } from '@angular/core';
 import { Account } from '../backend/models/account';
 import { BackendService } from '../backend/backend.service';
 //import { AccountBackend } from '../backend/backend';
+import { PluginManagerService } from '../plugins/plugin-manager.service';
 
 @Component({
   selector: 'app-account',
@@ -10,9 +11,16 @@ import { BackendService } from '../backend/backend.service';
 })
 export class AccountComponent implements OnInit {
   @Input() account: Account;
+  @ViewChild('plugindetails', {static: false, read: ViewContainerRef}) set ft(pluginDetails: ViewContainerRef) {
+    setTimeout(() => {
+        if(pluginDetails) {
+          this.pluginManager.fillDetails(pluginDetails, this.account);
+        }
+      });
+  };
   fields: Array<Object>;
 
-  constructor(private backendService: BackendService) { }
+  constructor(private backendService: BackendService, private pluginManager: PluginManagerService) { }
 
   ngOnInit() {
     /*
