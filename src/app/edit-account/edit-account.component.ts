@@ -1,11 +1,13 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, ViewChild, ViewContainerRef  } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { FormBuilder, Validators } from '@angular/forms';
+
 import { BackendService } from '../backend/backend.service';
 import { CryptoService } from '../backend/crypto.service';
 import { AccountTransformerService } from '../backend/controller/account-transformer.service';
 import { Account } from '../backend/models/account';
 import { CryptedObject } from '../backend/models/cryptedObject';
-import { FormBuilder, Validators } from '@angular/forms';
+import { PluginManagerService } from '../plugins/plugin-manager.service';
 
 @Component({
   selector: 'app-edit-account',
@@ -20,13 +22,21 @@ export class EditAccountComponent {
   });
   public hide: boolean = true;
   public account: Account;
+  @ViewChild('pluginfields', {static: false, read: ViewContainerRef}) set ft(pluginEdits: ViewContainerRef) {
+    setTimeout(() => {
+        if(pluginEdits) {
+          console.log(pluginEdits);
+          this.pluginManager.fillEdit(pluginEdits, this.account);
+        }
+      });
+  };
   @Input('updateAccount')
   set updateAccount(value: Account) {
     this.setUpdateAccount(value);
   }
   public message: string = "";
 
-  constructor(private backend:BackendService, private crypto: CryptoService, private accountTransformer: AccountTransformerService, private fb: FormBuilder, public dialogRef: MatDialogRef<EditAccountComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(private backend:BackendService, private crypto: CryptoService, private accountTransformer: AccountTransformerService, private fb: FormBuilder, public dialogRef: MatDialogRef<EditAccountComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private pluginManager: PluginManagerService) {
     console.log(data);
     if ("account" in data) {
       this.setUpdateAccount(data["account"]);

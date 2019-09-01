@@ -37,6 +37,7 @@ import { SidenavUnauthenticatedComponent } from './sidenav-unauthenticated/siden
 
 import { TestPluginColumnComponent } from './plugins/test-plugin-column/test-plugin-column.component';
 import { TestPluginDetailComponent } from './plugins/test-plugin-detail/test-plugin-detail.component';
+import { TestPluginEditComponent } from './plugins/test-plugin-edit/test-plugin-edit.component';
 
 export function apiConfigFactory(): Configuration{
   const params: ConfigurationParameters = {
@@ -64,7 +65,8 @@ export function apiConfigFactory(): Configuration{
     SidenavAuthenticatedComponent,
     SidenavUnauthenticatedComponent,
     TestPluginColumnComponent,
-    TestPluginDetailComponent
+    TestPluginDetailComponent,
+    TestPluginEditComponent
   ],
   entryComponents: [
     EditAccountComponent,
@@ -72,7 +74,8 @@ export function apiConfigFactory(): Configuration{
     CsvImportComponent,
     UserPasswordComponent,
 //plugins. ToDo: add at runtime
-    TestPluginDetailComponent
+    TestPluginDetailComponent,
+    TestPluginEditComponent
   ],
   imports: [
     BrowserModule,
