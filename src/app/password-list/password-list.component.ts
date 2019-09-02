@@ -31,8 +31,6 @@ export class PasswordListComponent {
 
   activeColumns = ['name','password'];
 
-  accounts: Account[];
-
   constructor(public backend: BackendService, private pluginManager: PluginManagerService, private dialog: MatDialog) {
   }
 
