@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { BackendService } from '../backend/backend.service';
 import { Account } from '../backend/models/account';
+import { PluginManagerService } from '../plugins/plugin-manager.service';
 
 @Component({
   selector: 'app-authenticated',
@@ -7,9 +9,17 @@ import { Account } from '../backend/models/account';
   styleUrls: ['./authenticated.component.css']
 })
 export class AuthenticatedComponent implements OnInit {
+  @ViewChild('pluginoverview', {static: false, read: ViewContainerRef}) set ft(plugins: ViewContainerRef) {
+    setTimeout(() => {
+        if(plugins) {
+          console.log(plugins);
+          this.pluginManager.fillOverview(plugins, this.backend.accounts);
+        }
+      });
+  };
   public selectedAccount: Account = null;
 
-  constructor() { }
+  constructor(public backend: BackendService, private pluginManager: PluginManagerService) { }
 
   ngOnInit() {
   }
