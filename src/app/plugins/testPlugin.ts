@@ -3,6 +3,7 @@ import { PluginAccountComponentInterface, PluginAccountListComponentInterface, P
 import { TestPluginColumnComponent } from './test-plugin-column/test-plugin-column.component';
 import { TestPluginDetailComponent } from './test-plugin-detail/test-plugin-detail.component';
 import { TestPluginEditComponent } from './test-plugin-edit/test-plugin-edit.component';
+import { TestPluginOverviewComponent } from './test-plugin-overview/test-plugin-overview.component';
 
 export class TestPlugin implements PluginInterface {
   TableColumnComponent(): typeof TestPluginColumnComponent {
@@ -17,8 +18,8 @@ export class TestPlugin implements PluginInterface {
     return TestPluginEditComponent;
   }
 
-  OverviewComponent(): PluginAccountListComponentInterface | null {
-    return null;
+  OverviewComponent(): typeof TestPluginOverviewComponent {
+    return TestPluginOverviewComponent;
   }
 
   modifyAddAccount(account: Account): Account {

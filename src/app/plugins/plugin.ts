@@ -13,7 +13,7 @@ export interface PluginInterface {
   DetailElementComponent(): any;
   EditElementComponent(): any;
 
-  OverviewComponent(): PluginAccountListComponentInterface | null;
+  OverviewComponent(): any;
 
   modifyAddAccount(account: Account): Account;
   modifyEditAccount(oldAccount: Account, account: Account): Account;
