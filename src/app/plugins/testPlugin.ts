@@ -4,6 +4,7 @@ import { TestPluginColumnComponent } from './test-plugin-column/test-plugin-colu
 import { TestPluginDetailComponent } from './test-plugin-detail/test-plugin-detail.component';
 import { TestPluginEditComponent } from './test-plugin-edit/test-plugin-edit.component';
 import { TestPluginOverviewComponent } from './test-plugin-overview/test-plugin-overview.component';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 export class TestPlugin implements PluginInterface {
   TableColumnComponent(): typeof TestPluginColumnComponent {
@@ -34,6 +35,10 @@ export class TestPlugin implements PluginInterface {
   }
 
   tableRowDraw(account: Account, row: any): void {
+  }
+
+  formEdit(form: FormGroup): void {
+    form.addControl("something", new FormControl('', Validators.required));
   }
 
 }

@@ -1,4 +1,5 @@
 import { Account } from '../backend/models/account';
+import { FormGroup } from '@angular/forms';
 
 export interface PluginAccountComponentInterface {
   account: Account;
@@ -21,4 +22,6 @@ export interface PluginInterface {
   accountsLoaded(accounts: Array<Account>): void;
 
   tableRowDraw(account: Account, row: any): void;
+
+  formEdit(form: FormGroup): void;
 }

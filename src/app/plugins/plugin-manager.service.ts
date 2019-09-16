@@ -2,6 +2,7 @@ import { Component, ComponentFactoryResolver, ViewContainerRef, Directive } from
 import { Injectable } from '@angular/core';
 import { PluginInterface, PluginAccountComponentInterface } from './plugin';
 import { Account } from '../backend/models/account';
+import { FormGroup } from '@angular/forms';
 
 import { TestPlugin } from './testPlugin';
 
@@ -59,6 +60,12 @@ export class PluginManagerService {
 
   fillOverview(container: ViewContainerRef, accounts: Array<Account>) {
     this.fillElements(container, (plugin) => { return plugin.OverviewComponent()}, (component) => {component.accounts = accounts});
+  }
+
+  formEdit(form: FormGroup): void {
+    for (let plugin of this.pluginInstances) {
+      plugin.formEdit(form);
+    }
   }
 
 }
