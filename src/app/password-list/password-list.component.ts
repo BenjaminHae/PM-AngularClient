@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { BackendService } from '../backend/backend.service';
 import { Account } from '../backend/models/account';
 import { EditAccountComponent } from '../edit-account/edit-account.component';
@@ -20,14 +20,6 @@ import { PluginManagerService } from '../plugins/plugin-manager.service';
 })
 export class PasswordListComponent {
   @Output() updateAccount = new EventEmitter();
-// ToDo: https://stackoverflow.com/questions/34947154/angular-2-viewchild-annotation-returns-undefined
-  @ViewChild('plugintest', {static: false, read: ViewContainerRef}) set ft(pluginColumn: ViewContainerRef) {
-    setTimeout(() => {
-        //if(pluginColumn) {
-        //  this.pluginManager.fillTableColumns(pluginColumn);
-        //}
-      });
-  };
 
   activeColumns = ['name','password'];
 
